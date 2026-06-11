@@ -106,6 +106,12 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
     Suite 15/15 green; 744/390 parity vs the frozen prototype intentionally
     diverges at this section.
 
+15. **2026-06-11 — Compact multiviewer on phones** (owner-directed). At
+    ≤560px PVW and PGM share one row instead of stacking full-width — the
+    monitor wall drops from ~590px to ~293px tall (PVW|PGM, CAM1|CAM2,
+    PLAYBACK|CLOCK). One rule in the production-additions block; lifted CSS
+    untouched. Suite 15/15 green.
+
 ## Carried TODOs (per prompt, intentionally unresolved)
 
 - Crew frame photo swap points (`.crew-frame` background slots) —

@@ -329,3 +329,8 @@ footer{border-top:1px solid var(--line);}
   .flow-svg{display:block;min-width:820px;}
   .flow-hint{display:block;font-family:var(--font-plex-mono),monospace;font-weight:500;font-size:9.5px;letter-spacing:.18em;color:var(--ink-35);text-transform:uppercase;margin-top:10px;}
 }
+/* 2026-06-11 owner-directed (DEVIATIONS.md §15): compact multiviewer on phones —
+   PVW|PGM pair on one row instead of stacked full-width windows (halves the wall) */
+@media(max-width:560px){
+  .pvw,.pgm{grid-column:span 1;}
+}
