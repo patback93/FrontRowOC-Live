@@ -84,6 +84,16 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
     frozen prototype now reads 0.005% at 1280 (those two lines only); 0.000%
     everywhere else.
 
+13. **2026-06-11 — Compact control surface on phones** (owner-directed after
+    reviewing the deployed page on iPhone; the prototype's ≤560 desk shipped
+    with a tall key tower and dead space under FTB). At ≤560px the T-bar
+    track is shortened to align with the key stack (198→148px) and the desk
+    is scaled to 82% (`zoom:.82`). Implemented in gala.css's marked
+    production-additions block; the lifted prototype CSS remains verbatim.
+    Full suite 15/15 green after the change (T-bar drag math is
+    zoom-safe). Parity vs the frozen prototype at 390 now intentionally
+    diverges in/below the desk (page 144px shorter); 744/1280 unchanged.
+
 ## Carried TODOs (per prompt, intentionally unresolved)
 
 - Crew frame photo swap points (`.crew-frame` background slots) —

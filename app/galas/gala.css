@@ -307,3 +307,9 @@ footer{border-top:1px solid var(--line);}
 .ok-line .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-right:10px;vertical-align:1px;}
 .form-ok .phone{display:inline-block;margin-top:12px;}
 .btn[disabled]{cursor:default;}
+/* 2026-06-11 owner-directed (DEVIATIONS.md §13): compact control surface on phones —
+   T-bar track aligned to the key stack + whole desk scaled to 82% */
+@media(max-width:560px){
+  .desk{zoom:.82;}
+  .tbar-track{height:148px;}
+}
