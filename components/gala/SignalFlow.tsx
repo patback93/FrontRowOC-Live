@@ -101,7 +101,7 @@ export default function SignalFlow() {
         <rect className="fl-box" x="10" y="161" width="200" height="58" />
         <circle className="fl-tally" id="fd-cam2" cx="196" cy="175" r="3.5" />
         <text className="fl-mono" x="26" y="187">CAM 2 — WIDE</text>
-        <text className="fl-sub" x="26" y="205">REMOTE HEAD · DRIVEN FROM THE DESK</text>
+        <text className="fl-sub" x="26" y="205">REMOTE HEAD · DESK-DRIVEN</text>
 
         <rect className="fl-box" x="10" y="280" width="200" height="58" />
         <circle className="fl-tally" id="fd-pb" cx="196" cy="294" r="3.5" />
@@ -144,7 +144,7 @@ export default function SignalFlow() {
 
         <rect className="fl-box" x="710" y="161" width="200" height="58" />
         <text className="fl-mono" x="726" y="187">RECAP FILM</text>
-        <text className="fl-sub" x="726" y="205">90 SEC · DELIVERED IN 2 WEEKS</text>
+        <text className="fl-sub" x="726" y="205">90 SEC · 2 WKS</text>
 
         <rect className="fl-box" x="710" y="280" width="200" height="58" />
         <text className="fl-mono" x="726" y="306">REMOTE STREAM</text>

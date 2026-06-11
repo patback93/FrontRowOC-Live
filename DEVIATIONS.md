@@ -73,6 +73,17 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
     spec file is untouched. App behavior (CSS smooth scroll + RM map) is
     unchanged.
 
+## Post-launch, owner-directed changes
+
+12. **2026-06-11 — Signal-flow SVG sub-labels tightened** (user-reported
+    overflow, present in the prototype itself on all devices — the strings
+    physically exceed the 200-unit boxes at the design's mono metrics):
+    `REMOTE HEAD · DRIVEN FROM THE DESK` → `REMOTE HEAD · DESK-DRIVEN`
+    (DESIGN.md's canonical phrasing) and `90 SEC · DELIVERED IN 2 WEEKS` →
+    `90 SEC · 2 WKS` (the mobile chain's existing string). Parity vs the
+    frozen prototype now reads 0.005% at 1280 (those two lines only); 0.000%
+    everywhere else.
+
 ## Carried TODOs (per prompt, intentionally unresolved)
 
 - Crew frame photo swap points (`.crew-frame` background slots) —
