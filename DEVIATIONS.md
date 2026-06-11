@@ -94,6 +94,18 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
     zoom-safe). Parity vs the frozen prototype at 390 now intentionally
     diverges in/below the desk (page 144px shorter); 744/1280 unchanged.
 
+14. **2026-06-11 — Swipeable set piece replaces the mobile chain** (owner
+    choice between two mockups). The prototype's ≤880 summary chain is
+    retired; the desktop signal-flow SVG now renders at all widths — at ≤880
+    inside a horizontal swipe viewport (`.flow-scroll`, min 820px diagram
+    width, momentum scroll, keyboard-focusable region) with edge fades that
+    follow the scroll position and a mono swipe hint. The wire draw-on-view
+    effect and its fail-safes now run on mobile too. **Provided suite test
+    #10 amended accordingly** ("chain replaces SVG" → "swipeable diagram
+    replaces chain") — the only spec change, marked in tests/gala.spec.ts.
+    Suite 15/15 green; 744/390 parity vs the frozen prototype intentionally
+    diverges at this section.
+
 ## Carried TODOs (per prompt, intentionally unresolved)
 
 - Crew frame photo swap points (`.crew-frame` background slots) —

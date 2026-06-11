@@ -101,13 +101,22 @@ test('FAQ opens; inputs are 16px; crew and Row B present', async ({ page }) => {
   expect(await page.locator('.rate-row.rate-hot').count()).toBe(1);
 });
 
-test('chain replaces SVG at mobile width; no console errors', async ({ page }) => {
+// AMENDED 2026-06-11 (owner-directed, DEVIATIONS.md §14): the summary chain is
+// retired; at mobile width the desktop SVG set piece renders in a horizontal
+// swipe viewport that must scroll internally without overflowing the page.
+test('swipeable diagram replaces chain at mobile width; no console errors', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', e => errors.push(String(e)));
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   await goto(page);
-  expect(await page.locator('div.chain').isVisible()).toBe(true);
-  expect(await page.locator('.flow-svg').isVisible()).toBe(false);
+  expect(await page.locator('.flow-svg').isVisible()).toBe(true);
+  expect(await page.locator('div.chain').count()).toBe(0);
+  const o = await page.evaluate(() => {
+    const w = document.querySelector('.flow-scroll')!;
+    return { scrollable: w.scrollWidth > w.clientWidth + 50, page: document.scrollingElement!.scrollWidth };
+  });
+  expect(o.scrollable).toBe(true);
+  expect(o.page).toBeLessThanOrEqual(391);
   expect(errors).toEqual([]);
 });
 

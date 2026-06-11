@@ -2,12 +2,36 @@
 
 import { useEffect, useRef } from "react";
 
-// SIGNAL FLOW — desktop SVG set piece + mobile chain fallback (CSS swaps them
-// at ≤880px). Wires draw in on view; fail-safes guarantee solid wires
-// regardless: 1.4s force-finish clears all dash styling, 5s no-trigger
-// fallback, reduced-motion skips entirely.
+// SIGNAL FLOW — the desktop SVG set piece. At ≤880px it renders inside a
+// horizontal swipe viewport with edge fades (owner-directed 2026-06-11,
+// DEVIATIONS.md §14 — replaces the prototype's summary-chain fallback).
+// Wires draw in on view; fail-safes guarantee solid wires regardless:
+// 1.4s force-finish clears all dash styling, 5s no-trigger fallback,
+// reduced-motion skips entirely.
 export default function SignalFlow() {
   const svgRef = useRef<SVGSVGElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // edge fades follow the swipe so neither end of the diagram is
+  // permanently obscured
+  useEffect(() => {
+    const wrap = scrollRef.current;
+    if (!wrap) return;
+    const update = () => {
+      wrap.classList.toggle("at-start", wrap.scrollLeft <= 8);
+      wrap.classList.toggle(
+        "at-end",
+        wrap.scrollLeft >= wrap.scrollWidth - wrap.clientWidth - 8,
+      );
+    };
+    update();
+    wrap.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      wrap.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -83,6 +107,13 @@ export default function SignalFlow() {
 
   return (
     <>
+      <div
+        className="flow-scroll"
+        ref={scrollRef}
+        tabIndex={0}
+        role="region"
+        aria-label="Signal flow diagram — scrollable on small screens"
+      >
       <svg
         ref={svgRef}
         className="flow-svg"
@@ -150,34 +181,9 @@ export default function SignalFlow() {
         <text className="fl-mono" x="726" y="306">REMOTE STREAM</text>
         <text className="fl-sub" x="726" y="324">OPTIONAL ADD-ON</text>
       </svg>
-
-      <div className="chain">
-        <div className="ch-box">
-          <span className="ch-t">3 SOURCES</span>
-          <span className="ch-s">OPERATED CINEMA CAM · REMOTE HEAD · TRIBUTE PLAYBACK</span>
-        </div>
-        <div className="ch-wire"></div>
-        <div className="ch-box ch-raised">
-          <span className="ch-t">FRONT ROW — VISION SWITCHER</span>
-          <span className="ch-s">1 ENGINEER-IN-CHARGE</span>
-        </div>
-        <div className="ch-wire ch-red"></div>
-        <div className="ch-box ch-live">
-          <span className="ch-t">
-            <span className="dot"></span>BALLROOM SCREENS
-          </span>
-          <span className="ch-s">LIVE DURING THE ASK</span>
-        </div>
-        <div className="ch-also">
-          <div className="ch-box">
-            <span className="ch-t">RECAP FILM</span>
-            <span className="ch-s">90 SEC · 2 WKS</span>
-          </div>
-          <div className="ch-box">
-            <span className="ch-t">REMOTE STREAM</span>
-            <span className="ch-s">OPTIONAL</span>
-          </div>
-        </div>
+      </div>
+      <div className="flow-hint" aria-hidden="true">
+        ← SWIPE THE SIGNAL PATH →
       </div>
     </>
   );

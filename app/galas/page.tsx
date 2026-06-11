@@ -100,7 +100,7 @@ export default function GalasPage() {
             <div className="r1">Built for ballrooms.</div>
             <div className="r2">02 · SIGNAL FLOW · ROW C BASE PACKAGE</div>
           </div>
-          <div>
+          <div className="flow-field">
             <p className="flow-intro">
               Everything a broadcast truck does — scaled to two cameras,
               tribute playback, a vision switcher, and one engineer-in-charge.
