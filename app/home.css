@@ -44,7 +44,12 @@
 /* deterministic across load orders (gala.css resets * globally) */
 .hm, .hm * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* the page owns the document background — otherwise the default white
+   body (and its 8px margin) frames the site at the outside edges and
+   shows through overscroll; #111013 matches gala.css's body rule so
+   the two routes can't fight */
+html { scroll-behavior: smooth; background: #111013; }
+body { margin: 0; padding: 0; background: #111013; }
 
 .hm img { max-width: 100%; }
 /* :where keeps this at class-level specificity so single-class CTA
