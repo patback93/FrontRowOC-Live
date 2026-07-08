@@ -15,12 +15,12 @@ export const metadata: Metadata = {
   title: "Front Row Broadcast — Cinematic Multicam Video Production | Orange County",
   description:
     "Live event films with broadcast backbone — cinematic multicam production for concerts, galas, brand events, and livestreams, engineered for the room, the stream, and the final cut.",
-  alternates: { canonical: "https://frontrowoc.com" },
+  alternates: { canonical: "https://www.frontrowoc.com" },
   openGraph: {
     title: "Front Row Broadcast — Cinematic Multicam Video Production",
     description:
       "Live event films with broadcast backbone — cinematic multicam production for concerts, galas, brand events, and livestreams.",
-    url: "https://frontrowoc.com",
+    url: "https://www.frontrowoc.com",
     siteName: "Front Row Broadcast",
     locale: "en_US",
     type: "website",
@@ -46,10 +46,10 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Front Row Broadcast",
-  url: "https://frontrowoc.com",
+  url: "https://www.frontrowoc.com",
   telephone: "+1-949-236-7573",
   email: "hello@frontrowoc.com",
-  image: "https://frontrowoc.com/home/og.jpg",
+  image: "https://www.frontrowoc.com/home/og.jpg",
   areaServed: {
     "@type": "AdministrativeArea",
     name: "Orange County, CA",

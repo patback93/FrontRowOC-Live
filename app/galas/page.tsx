@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     "Cinematic Broadcast for Galas & Fundraisers | Front Row Broadcast — Orange County",
   description:
     "Cinematic broadcast for Orange County galas and fundraisers — live cameras to your ballroom screens during the ask, and a 90-second recap film after.",
-  alternates: { canonical: "https://frontrowoc.com/galas" },
+  alternates: { canonical: "https://www.frontrowoc.com/galas" },
   openGraph: {
     title:
       "Cinematic Broadcast for Galas & Fundraisers | Front Row Broadcast — Orange County",
     description:
       "Cinematic broadcast for Orange County galas and fundraisers — live cameras to your ballroom screens during the ask, and a 90-second recap film after.",
-    url: "https://frontrowoc.com/galas",
+    url: "https://www.frontrowoc.com/galas",
     siteName: "Front Row Broadcast",
     locale: "en_US",
     type: "website",
@@ -46,11 +46,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Front Row Broadcast",
-  url: "https://frontrowoc.com/galas",
+  url: "https://www.frontrowoc.com/galas",
   telephone: "+1-949-236-7573",
   email: "hello@frontrowoc.com",
   priceRange: "$4,500-$9,500+",
-  image: "https://frontrowoc.com/galas/og.png",
+  image: "https://www.frontrowoc.com/galas/og.png",
   areaServed: {
     "@type": "AdministrativeArea",
     name: "Orange County, CA",

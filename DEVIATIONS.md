@@ -123,12 +123,12 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
 
 ## Deployment notes (site-wide)
 
-- TODO(deploy): Verify frontrowoc.com and www.frontrowoc.com both resolve in
-  production and redirect cleanly (single 308) to one canonical host. The
-  homepage's canonical/OG/JSON-LD URLs point at `https://frontrowoc.com`
-  (apex, non-www — `app/page.tsx`); if www is preferred instead, add the
-  redirect in Vercel's domain settings **and** update those URLs together.
-  No DNS/redirect config lives in this repo, so this is a dashboard task.
+- TODO(deploy): Owner prefers **www**. All canonical/OG/JSON-LD URLs point at
+  `https://www.frontrowoc.com` (app/layout.tsx metadataBase, app/page.tsx,
+  app/galas/page.tsx). In Vercel's domain settings, add both domains and set
+  `www.frontrowoc.com` as primary so `frontrowoc.com` 308-redirects to it.
+  Verify the apex → www redirect once DNS is pointed. No DNS/redirect config
+  lives in this repo, so this is a dashboard task.
 
 ## Local verification record (this environment)
 

@@ -19,7 +19,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://frontrowoc.com"),
+  metadataBase: new URL("https://www.frontrowoc.com"),
 };
 
 export default function RootLayout({

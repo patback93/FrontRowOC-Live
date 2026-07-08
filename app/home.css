@@ -833,7 +833,9 @@ body { margin: 0; padding: 0; background: #111013; }
 .hm-next-idx { font-family: var(--f-mono); font-weight: 600; font-size: 11px; letter-spacing: 0.16em; color: var(--accent); }
 .hm-next-name { font-family: var(--f-display); font-weight: 800; font-stretch: 125%; font-size: 16px; letter-spacing: 0.02em; text-transform: uppercase; color: rgba(246,243,236,0.82); }
 
-.hm-book-body { padding: 56px 0 96px var(--padL); }
+/* right pad matters below ~1160px, where the 1026px sheet would
+   otherwise touch the viewport edge; identical at 1440 (max-width wins) */
+.hm-book-body { padding: 56px var(--padR) 96px var(--padL); }
 .hm-sheet { max-width: 1026px; }
 .hm-sheet-head { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
 .hm-sheet-head span { font-family: var(--f-mono); font-weight: 600; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(246,243,236,0.45); }
