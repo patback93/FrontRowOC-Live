@@ -1,0 +1,74 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Lockup from "./Lockup";
+
+const LINKS = [
+  { idx: "00", href: "#who", label: "Who we are" },
+  { idx: "01", href: "#services", label: "What we do" },
+  { idx: "02", href: "#projects", label: "Projects" },
+  { idx: "03", href: "#book", label: "Contact" },
+];
+
+export default function HomeNav() {
+  const [open, setOpen] = useState(false);
+
+  // lock page scroll behind the full-screen menu
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <>
+      <header className="hm-nav">
+        <a className="hm-nav-lockup" href="#top" aria-label="Front Row Broadcast — home">
+          <Lockup />
+        </a>
+
+        <nav className="hm-nav-links" aria-label="Primary">
+          {LINKS.map((l) => (
+            <a key={l.href} href={l.href}>
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          className="hm-burger"
+          aria-label="Menu"
+          aria-expanded={open}
+          onClick={() => setOpen(true)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </header>
+
+      {open && (
+        <div className="hm-menu">
+          <div className="hm-menu-top">
+            <button type="button" className="hm-menu-close" onClick={() => setOpen(false)}>
+              CLOSE ✕
+            </button>
+          </div>
+          <nav className="hm-menu-links" aria-label="Mobile">
+            {LINKS.map((l) => (
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
+                <span className="hm-mi">{l.idx}</span>
+                <span className="hm-mt">{l.label}</span>
+              </a>
+            ))}
+          </nav>
+          <a href="#book" className="hm-menu-cta" onClick={() => setOpen(false)}>
+            Check availability
+          </a>
+        </div>
+      )}
+    </>
+  );
+}
