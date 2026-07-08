@@ -91,7 +91,10 @@ export default function WhatWeDo() {
                 className="hm-svc-head"
                 role="button"
                 tabIndex={0}
+                id={`svc-head-${i}`}
                 aria-expanded={isOpen}
+                aria-controls={isOpen ? `svc-panel-${i}` : undefined}
+                aria-label={`${isOpen ? "Collapse" : "Expand"} ${d.title}`}
                 onClick={() => setOpen(isOpen ? -1 : i)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -103,21 +106,28 @@ export default function WhatWeDo() {
                 <div className="hm-svc-note" style={{ marginLeft: `var(--svc-indent-${i})` }}>
                   <span
                     className="hm-dash"
+                    aria-hidden="true"
                     style={{ transitionDelay: `${i * 90 + 160}ms, 0ms` }}
                   />
                   <span>{noteShown(d.note, i)}</span>
                 </div>
                 <div className="hm-svc-title" style={{ marginLeft: `var(--svc-indent-${i})` }}>
                   <span className="hm-hl">{d.title}</span>
-                  {isOpen && <span className="hm-svc-period">.</span>}
-                  <span className="hm-svc-marker">
+                  {isOpen && <span className="hm-svc-period">.</span>}{" "}
+                  <span className="hm-svc-marker" aria-hidden="true">
                     <span className="hm-m-rule" />
                     <span>{isOpen ? "−" : "+"}</span>
                   </span>
                 </div>
               </div>
               {isOpen && (
-                <div className="hm-svc-panel" style={{ marginLeft: `var(--svc-indent-${i})` }}>
+                <div
+                  className="hm-svc-panel"
+                  id={`svc-panel-${i}`}
+                  role="region"
+                  aria-labelledby={`svc-head-${i}`}
+                  style={{ marginLeft: `var(--svc-indent-${i})` }}
+                >
                   <div className="hm-body">{d.body}</div>
                   <div className="hm-svc-ideal">
                     <span className="hm-i-label">Ideal for</span>

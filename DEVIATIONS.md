@@ -121,6 +121,15 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
 - `NEXT_PUBLIC_CAL_URL` — "OR BOOK A 15-MIN CALL" keeps `href="#"` until set
   — `components/gala/HoldForm.tsx`.
 
+## Deployment notes (site-wide)
+
+- TODO(deploy): Verify frontrowoc.com and www.frontrowoc.com both resolve in
+  production and redirect cleanly (single 308) to one canonical host. The
+  homepage's canonical/OG/JSON-LD URLs point at `https://frontrowoc.com`
+  (apex, non-www — `app/page.tsx`); if www is preferred instead, add the
+  redirect in Vercel's domain settings **and** update those URLs together.
+  No DNS/redirect config lives in this repo, so this is a dashboard task.
+
 ## Local verification record (this environment)
 
 - Playwright: 15/15 (11 provided + 4 form/API).

@@ -50,8 +50,16 @@ test("hero reel card opens the modal; Esc closes it", async ({ page }) => {
   await page.locator(".hm-reel-card").click();
   await expect(page.locator(".hm-modal-dialog")).toBeVisible();
   await expect(page.locator(".hm-modal-title")).toHaveText("Watch the reel");
+  // focus lands on CLOSE; Tab is trapped inside the dialog (CLOSE ⇄ CTA)
+  await expect(page.locator(".hm-modal-close")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".hm-modal-cta")).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.locator(".hm-modal-close")).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(page.locator(".hm-modal")).toHaveCount(0);
+  // focus returns to the reel card that opened it
+  await expect(page.locator(".hm-reel-card")).toBeFocused();
 });
 
 test("who-we-are statement reveals on scroll", async ({ page }) => {
@@ -77,15 +85,35 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
   await expect(page.locator(".hm-svc-panel")).toBeVisible();
   await expect(page.locator(".hm-svc-ideal .hm-i-desc")).toContainText("Arena shows");
 
+  // accordion a11y: expanded state, labels, wired panel, hidden marker
+  const first = page.locator(".hm-svc-head").first();
+  await expect(first).toHaveAttribute("aria-expanded", "true");
+  await expect(first).toHaveAttribute("aria-label", /^Collapse Concert Films/);
+  await expect(first).toHaveAttribute("aria-controls", "svc-panel-0");
+  await expect(page.locator("#svc-panel-0")).toHaveAttribute("role", "region");
+  await expect(page.locator(".hm-svc-marker").first()).toHaveAttribute("aria-hidden", "true");
+
   // open Technical Direction & Crew — the crew sheet lists eight roles
   await page.locator(".hm-svc-head").nth(4).click();
   await expect(page.locator(".hm-svc-role")).toHaveCount(8);
+  await expect(first).toHaveAttribute("aria-expanded", "false");
+  await expect(first).toHaveAttribute("aria-label", /^Expand Concert Films/);
+
+  // keyboard: Enter re-opens the first service
+  await first.focus();
+  await page.keyboard.press("Enter");
+  await expect(first).toHaveAttribute("aria-expanded", "true");
 });
 
 test("selected-work concourse initializes with seven posters and live plate", async ({ page }) => {
   await page.goto("/");
   await page.locator("#projects").scrollIntoViewIfNeeded();
   await expect(page.locator("[data-frbp-case]")).toHaveCount(7);
+  // desktop: the inactive mobile rail is out of the accessibility tree,
+  // and the title annotation no longer concatenates ("work.BUILT")
+  await expect(page.locator(".hm-proj-mobile")).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator(".hm-concourse")).not.toHaveAttribute("aria-hidden", "true");
+  expect(await page.locator(".hm-proj-title").textContent()).toMatch(/work\.\s+BUILT/);
   await expect(page.locator('[data-frbp="counter"]')).toHaveText("01 / 07", { timeout: 10_000 });
   await expect(page.locator('[data-frbp="meta"]')).toHaveText("Concert film");
   // clicking the last contact-strip frame dollies the wall to CH 07
@@ -97,10 +125,13 @@ test("selected-work concourse initializes with seven posters and live plate", as
 test("availability request: required-field validation blocks empty submit", async ({ page }) => {
   await page.goto("/");
   await page.locator("#book").scrollIntoViewIfNeeded();
+  // "What happens next" numbers read as one token ("01", never "0 1")
+  expect(await page.locator(".hm-next-idx").first().textContent()).toBe("01");
   await page.locator(".hm-btn-primary").click();
   await expect(page.locator(".hm-sheet-error")).toContainText(
     "Name, email, and event date are required.",
   );
+  await expect(page.locator("#ct-name")).toHaveAttribute("aria-invalid", "true");
   expect(hits.length).toBe(0);
 });
 
@@ -153,6 +184,14 @@ test("mobile: burger menu opens, swipe rail replaces concourse", async ({ browse
   await expect(page.locator(".hm-swipe-card")).toHaveCount(7);
   // each swipe card carries the metadata grid
   await expect(page.locator(".hm-swipe-specs")).toHaveCount(7);
+  // mobile: the inactive desktop concourse is out of the accessibility
+  // tree, and the open menu stacks above the sticky CTA
+  await expect(page.locator(".hm-concourse")).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator(".hm-proj-mobile")).not.toHaveAttribute("aria-hidden", "true");
+  await page.locator(".hm-burger").tap();
+  const zMenu = await page.locator(".hm-menu").evaluate((el) => parseInt(getComputedStyle(el).zIndex, 10));
+  const zSticky = await page.locator(".hm-sticky").evaluate((el) => parseInt(getComputedStyle(el).zIndex, 10));
+  expect(zMenu).toBeGreaterThan(zSticky);
   await ctx.close();
 });
 

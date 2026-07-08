@@ -212,7 +212,8 @@ export default function WhoWeAre() {
         </div>
       </div>
 
-      <div className="hm-lens" data-fw="ring">
+      {/* decorative pointer-only control — the tick values are noise to AT */}
+      <div className="hm-lens" data-fw="ring" aria-hidden="true">
         <div className="hm-lens-label">Focus — drag to rack</div>
         <div className="hm-lens-track" />
         <div className="hm-lens-major" />

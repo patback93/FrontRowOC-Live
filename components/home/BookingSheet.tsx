@@ -128,7 +128,9 @@ export default function BookingSheet() {
         <div className="hm-next-grid">
           {NEXT_STEPS.map((step, i) => (
             <div key={step} className="hm-next-step">
-              <span className="hm-next-idx">0{i + 1}</span>
+              {/* one template literal → one text node, so the number
+                  reads "01" (never "0 1") to AT and text extraction */}
+              <span className="hm-next-idx">{`0${i + 1}`}</span>
               <span className="hm-next-name">{step}</span>
             </div>
           ))}
@@ -144,15 +146,15 @@ export default function BookingSheet() {
             <div className="hm-sheet-grid">
               <div className="hm-field">
                 <label htmlFor="ct-name">Name *</label>
-                <input id="ct-name" type="text" placeholder="Your name" value={f.name} onChange={set("name")} className={cls("name")} />
+                <input id="ct-name" type="text" placeholder="Your name" value={f.name} onChange={set("name")} className={cls("name")} aria-required="true" aria-invalid={invalid.has("name") || undefined} />
               </div>
               <div className="hm-field">
                 <label htmlFor="ct-email">Email *</label>
-                <input id="ct-email" type="email" placeholder="you@org.com" value={f.email} onChange={set("email")} className={cls("email")} />
+                <input id="ct-email" type="email" placeholder="you@org.com" value={f.email} onChange={set("email")} className={cls("email")} aria-required="true" aria-invalid={invalid.has("email") || undefined} />
               </div>
               <div className="hm-field">
                 <label htmlFor="ct-date">Event date *</label>
-                <input id="ct-date" type="text" className={`hm-mono-input${invalid.has("date") ? " hm-invalid" : ""}`} placeholder="MM/DD/YYYY" value={f.date} onChange={set("date")} />
+                <input id="ct-date" type="text" className={`hm-mono-input${invalid.has("date") ? " hm-invalid" : ""}`} placeholder="MM/DD/YYYY" value={f.date} onChange={set("date")} aria-required="true" aria-invalid={invalid.has("date") || undefined} />
               </div>
               <div className="hm-field">
                 <label htmlFor="ct-venue">Venue / City</label>

@@ -16,6 +16,28 @@ import { PROJECT_ITEMS } from "./data";
 // concourse is display:none under 860px and never initialized).
 export default function Projects() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
+
+  // Both responsive variants stay in the DOM (CSS swaps them at 860px);
+  // mirror that swap into the accessibility tree so screen readers and
+  // text extraction never read the wall twice.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 860px)");
+    const apply = () => {
+      const desktop = rootRef.current;
+      const mobile = mobileRef.current;
+      if (mq.matches) {
+        desktop?.setAttribute("aria-hidden", "true");
+        mobile?.removeAttribute("aria-hidden");
+      } else {
+        desktop?.removeAttribute("aria-hidden");
+        mobile?.setAttribute("aria-hidden", "true");
+      }
+    };
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -254,9 +276,9 @@ export default function Projects() {
       </div>
 
       <div className="hm-proj-title">
-        Selected work<span className="hm-dot">.</span>
+        Selected work<span className="hm-dot">.</span>{" "}
         <span className="hm-proj-note">
-          <span className="hm-proj-note-rule" />
+          <span className="hm-proj-note-rule" aria-hidden="true" />
           BUILT FOR THE ROOM. FINISHED FOR THE SCREEN.
         </span>
       </div>
@@ -358,7 +380,7 @@ export default function Projects() {
       </div>
 
       {/* mobile: swipe rail */}
-      <div className="hm-proj-mobile">
+      <div className="hm-proj-mobile" ref={mobileRef}>
         <div className="hm-proj-swipe-note">
           <span className="hm-proj-note-rule" />
           Swipe selected work — 07 titles
