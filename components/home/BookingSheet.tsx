@@ -117,18 +117,21 @@ export default function BookingSheet() {
       </div>
 
       <div className="hm-book-title">
-        <div className="hm-bt-1">Tell us</div>
+        <div className="hm-bt-1">Hold the</div>
         <div className="hm-bt-2 hm-outline">
-          the date<span className="hm-dot">.</span>
+          date<span className="hm-dot">.</span>
         </div>
       </div>
-      <p className="hm-book-lede">Send the booking sheet below — we&rsquo;ll take it from there.</p>
+      <p className="hm-book-lede">
+        Tell us the date, venue, and shape of the show. We&rsquo;ll confirm availability,
+        recommend the right camera plan, and send back a clean path forward.
+      </p>
 
       <div className="hm-book-body">
         {!sent ? (
           <form className="hm-sheet" onSubmit={submit} noValidate>
             <div className="hm-sheet-head">
-              <span>Booking sheet</span>
+              <span>Availability Request</span>
             </div>
             <div className="hm-sheet-grid">
               <div className="hm-field">
@@ -220,8 +223,8 @@ export default function BookingSheet() {
               on the board.
             </div>
             <p className="hm-received-copy">
-              We reply within two hours with a proposal and the camera plot — and your date holds
-              for five days while your committee decides.
+              We&rsquo;ll confirm availability, recommend the right camera plan for your show, and
+              send back a clean path forward — usually within one business day.
             </p>
             <a href="#book" className="hm-received-reset" onClick={reset}>
               Send another sheet

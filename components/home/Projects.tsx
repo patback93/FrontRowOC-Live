@@ -216,7 +216,7 @@ export default function Projects() {
   return (
     <section className="hm-projects" id="projects">
       <div className="hm-section-head">
-        <Slate idx="02" name="Projects" sub="Recent broadcasts, on the wall" />
+        <Slate idx="02" name="Projects" sub="Selected work, presented with context" />
       </div>
 
       <div className="hm-proj-title">
@@ -258,11 +258,11 @@ export default function Projects() {
           <div className="hm-plate-title-row">
             <span className="hm-plate-dot" />
             <span className="hm-plate-title" data-frbp="title">
-              Reba
+              Elton John
             </span>
           </div>
           <div className="hm-plate-sub" data-frbp="sub">
-            LIVE AT MADISON SQUARE GARDEN
+            BENEFIT CONCERT / LARGE-FORMAT LIVE CAPTURE — PETCO PARK
           </div>
         </div>
         <div className="hm-strip-wrap">

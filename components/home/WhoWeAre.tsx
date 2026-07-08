@@ -165,7 +165,7 @@ export default function WhoWeAre() {
       </div>
 
       <div className="hm-who-head" data-enter="">
-        <Slate idx="00" name="Who we are" sub="The company behind the cameras" />
+        <Slate idx="00" name="Who we are" sub="The crew behind the picture" />
         <div className="hm-rec">
           <span className="hm-rec-dot" />
           <span className="hm-rec-label">REC</span>
@@ -196,16 +196,16 @@ export default function WhoWeAre() {
       <div className="hm-who-copy" data-fw-blur="" data-enter="">
         <div className="hm-who-copy-inner">
           <p className="hm-body">
-            We bring the look of a feature film to the reliability of live broadcast — cinema
-            cameras on every angle, cut live, engineered to hold up when there&rsquo;s no second
-            take.
+            We build live video systems that feel like a film crew and hold like a broadcast
+            truck — camera plots, engineering, live switching, recording, and delivery handled
+            by one senior team.
           </p>
           <div className="hm-who-creds">
-            Based in Orange County
+            Orange County based / travel ready
             <br />
-            Lean, experienced core team
+            Senior crew on every show
             <br />
-            Trusted on national stages
+            Trusted by artists, brands, donors, and venues
           </div>
         </div>
       </div>

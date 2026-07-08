@@ -69,7 +69,7 @@ test("projects concourse initializes with seven posters and live plate", async (
   await expect(page.locator('[data-frbp="counter"]')).toHaveText("01 / 07", { timeout: 10_000 });
   // clicking the last contact-strip frame dollies the wall to CH 07
   await page.locator("[data-frbp-tick='6']").click();
-  await expect(page.locator('[data-frbp="title"]')).toHaveText("Elton John", { timeout: 10_000 });
+  await expect(page.locator('[data-frbp="title"]')).toHaveText("Mary J. Blige", { timeout: 10_000 });
   await expect(page.locator('[data-frbp="counter"]')).toHaveText("07 / 07");
 });
 

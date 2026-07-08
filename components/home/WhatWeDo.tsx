@@ -74,7 +74,7 @@ export default function WhatWeDo() {
   return (
     <section className="hm-services" id="services" ref={secRef}>
       <div className="hm-section-head">
-        <Slate idx="01" name="What we do" sub="Five ways we show up on show day" />
+        <Slate idx="01" name="What we do" sub="Premium coverage, engineered end to end" />
       </div>
       <div className="hm-service-list">
         {SERVICES.map((d, i) => {

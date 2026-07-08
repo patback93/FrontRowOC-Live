@@ -12,16 +12,25 @@ const LOGOS: Array<{ file: string; alt: string; h: number }> = [
 
 export default function CreditBanner() {
   return (
-    <section className="hm-credits" aria-label="Broadcast partners">
-      {LOGOS.map((l) => (
-        <img
-          key={l.file}
-          src={`/home/logos/${l.file}.png`}
-          alt={l.alt}
-          className="hm-credit-logo"
-          style={{ "--h": `${l.h}px` } as React.CSSProperties}
-        />
-      ))}
+    <section className="hm-credits" aria-label="Selected clients and partners">
+      <div className="hm-credits-intro">
+        <div className="hm-credits-kicker">Selected Clients &amp; Partners</div>
+        <p className="hm-credits-line">
+          Trusted across artist specials, national stages, brand events, and livestream
+          platforms.
+        </p>
+      </div>
+      <div className="hm-credits-logos">
+        {LOGOS.map((l) => (
+          <img
+            key={l.file}
+            src={`/home/logos/${l.file}.png`}
+            alt={l.alt}
+            className="hm-credit-logo"
+            style={{ "--h": `${l.h}px` } as React.CSSProperties}
+          />
+        ))}
+      </div>
     </section>
   );
 }
