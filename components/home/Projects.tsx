@@ -152,6 +152,11 @@ export default function Projects() {
     };
 
     const down = (e: PointerEvent) => {
+      // presses on a context-plate CTA are links, not drags — bail before
+      // setPointerCapture retargets the click away from the anchor (React
+      // onPointerDown stopPropagation can't do this: it's delegated at the
+      // root and runs after this native listener)
+      if ((e.target as Element | null)?.closest?.(".hm-case-cta")) return;
       s.drag = true;
       s.sx = e.clientX;
       s.x0 = s.x;
@@ -266,9 +271,6 @@ export default function Projects() {
     };
   }, []);
 
-  // keep the case CTA out of the stage's drag/dolly machinery
-  const stopPtr = (e: React.PointerEvent) => e.stopPropagation();
-
   return (
     <section className="hm-projects" id="projects">
       <div className="hm-section-head">
@@ -315,12 +317,7 @@ export default function Projects() {
                       <span>Output</span>
                       <span className="hm-v">{it.output}</span>
                     </div>
-                    <a
-                      href="#book"
-                      className="hm-case-cta"
-                      onPointerDown={stopPtr}
-                      onPointerUp={stopPtr}
-                    >
+                    <a href="#book" className="hm-case-cta">
                       Discuss a similar show
                     </a>
                   </div>

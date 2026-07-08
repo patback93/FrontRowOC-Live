@@ -120,6 +120,13 @@ test("selected-work concourse initializes with seven posters and live plate", as
   await page.locator("[data-frbp-tick='6']").click();
   await expect(page.locator('[data-frbp="title"]')).toHaveText("Elton John", { timeout: 10_000 });
   await expect(page.locator('[data-frbp="counter"]')).toHaveText("07 / 07");
+
+  // the context-plate CTA is a real link — hover raises the plate and
+  // clicking navigates to #book (regression: the stage's pointer capture
+  // used to swallow the click)
+  await page.locator(".hm-poster-frame").nth(6).hover();
+  await page.locator(".hm-case-cta").nth(6).click();
+  await expect(page).toHaveURL(/#book$/);
 });
 
 test("availability request: required-field validation blocks empty submit", async ({ page }) => {
