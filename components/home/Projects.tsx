@@ -41,18 +41,18 @@ export default function Projects() {
     if (!stage || !cases.length) return;
 
     const meta = PROJECT_ITEMS;
-    const gap = 120;
+    // Geometry is authored at design scale (540px cases, 120px gap) and
+    // rescaled to the stage's flexed height so the whole section fits in
+    // one viewport — layout() resizes the real boxes (never transform:
+    // scale) and rebuilds the physics centers to match.
+    const DESIGN_H = 540;
+    const DESIGN_GAP = 120;
     const centers: number[] = [];
-    let cx = 0;
-    for (const m of meta) {
-      centers.push(cx + m.w / 2);
-      cx += m.w + gap;
-    }
-    const n = centers.length;
+    const n = meta.length;
     const s = {
-      x: centers[0],
+      x: 0,
       vx: 0,
-      target: centers[0] as number | null,
+      target: 0 as number | null,
       drag: false,
       sx: 0,
       x0: 0,
@@ -61,6 +61,32 @@ export default function Projects() {
       last: performance.now(),
       active: -1,
     };
+    const layout = () => {
+      const H = stage.clientHeight || 800;
+      // ~3% top offset + case + reflection room below, capped at design size
+      const caseH = Math.max(220, Math.min(DESIGN_H, Math.round(H * 0.78)));
+      const k = caseH / DESIGN_H;
+      cases.forEach((el, i) => {
+        const w = meta[i].w * k;
+        el.style.width = `${w}px`;
+        el.style.height = `${caseH}px`;
+        el.style.marginLeft = `${-w / 2}px`;
+        el.style.top = `${Math.round(H * 0.03)}px`;
+      });
+      centers.length = 0;
+      let cx = 0;
+      for (const m of meta) {
+        centers.push(cx + (m.w * k) / 2);
+        cx += (m.w + DESIGN_GAP) * k;
+      }
+      // hold the current title in focus through the re-layout
+      const i = s.active >= 0 ? s.active : 0;
+      s.x = centers[i];
+      if (!s.drag) s.target = centers[i];
+    };
+    layout();
+    const ro = new ResizeObserver(layout);
+    ro.observe(stage);
 
     const setActive = (i: number) => {
       if (i === s.active) return;
@@ -209,6 +235,7 @@ export default function Projects() {
 
     return () => {
       cancelAnimationFrame(raf);
+      ro.disconnect();
       stage.removeEventListener("pointerdown", down);
       stage.removeEventListener("pointermove", move);
       window.removeEventListener("pointerup", up);
