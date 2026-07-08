@@ -45,19 +45,19 @@ export const SERVICES: Service[] = [
   {
     title: "Corporate & Brand Events",
     indent: 40,
-    note: "03 — Clean alongside your AV",
+    note: "03 — Premium picture for high-visibility rooms",
     body: "Multicamera coverage for keynotes, launches, conferences, and branded moments. We work alongside AV and staging teams to create a polished live cut, stream, and recording that feels aligned with the brand.",
   },
   {
     title: "Galas & Fundraisers",
     indent: 180,
-    note: "04 — Quiet in the room",
+    note: "04 — Quiet, polished, donor-facing",
     body: "Elegant live video support for formal rooms: stage coverage, IMAG, giving moments, stream feeds, and recap-ready recordings. The crew stays discreet, the picture stays composed, and the program keeps moving.",
   },
   {
     title: "Technical Direction & Crew",
     indent: 70,
-    note: "05 — Eight positions, one call",
+    note: "05 — Senior operators, engineers, and support",
     body: "Bring in a focused broadcast team or fill the positions your show is missing:",
     roles: [
       { name: "Technical Direction", desc: "Show planning, crew leadership, switching approach, and video department oversight." },

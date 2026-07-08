@@ -585,11 +585,14 @@ html { scroll-behavior: smooth; }
   .hm-lens-ticks span:nth-child(6), .hm-lens-ticks span:nth-child(8),
   .hm-lens-ticks span:nth-child(10) { display: none; }
 
+  /* section slates: tighten the mono sub so long descriptors don't clip */
+  .hm-slate-sub { font-size: 8.5px; letter-spacing: 0.04em; }
+
   /* services */
   .hm-services { padding: 36px 20px 30px; }
   .hm-service-list { padding: 0; }
   .hm-svc-head { padding: 18px 0 4px; }
-  .hm-svc-note { font-size: 9px; letter-spacing: 0.16em; gap: 8px; height: auto; }
+  .hm-svc-note { font-size: 8.5px; letter-spacing: 0.07em; gap: 8px; height: auto; }
   .hm-svc-note .hm-dash, .hm-svc.hm-revealed .hm-svc-note .hm-dash { width: 20px; }
   .hm-svc-title { font-size: 21px; line-height: 1.08; margin-top: 5px; }
   .hm-svc-marker { transform: translateY(-4px); margin-left: 10px; font-size: 11px; gap: 0; }
