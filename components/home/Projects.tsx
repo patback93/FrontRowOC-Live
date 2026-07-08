@@ -7,11 +7,13 @@ import { PROJECT_ITEMS } from "./data";
 /* eslint-disable @next/next/no-img-element -- the concourse drives
    raw <img> transforms per-frame; next/image wrappers fight the rAF loop */
 
-// 02 Projects — the poster concourse. Drag to walk the wall (momentum +
-// snap), click a poster or a 35mm contact-strip frame to pull focus,
-// followspot tracks the cursor, and it slow-drifts to the next title
-// after 6s idle. Mobile gets a native scroll-snap swipe rail instead
-// (the concourse is display:none under 860px and never initialized).
+// 02 Selected work — the poster concourse. Drag to walk the wall
+// (momentum + snap), click a poster or a 35mm contact-strip frame to
+// pull focus, followspot tracks the cursor, and it slow-drifts to the
+// next title after 6s idle. Hovering a poster raises its context plate
+// (Format / Role / Output + "Discuss a similar show"). Mobile gets a
+// native scroll-snap swipe rail with the same metadata per card (the
+// concourse is display:none under 860px and never initialized).
 export default function Projects() {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -25,6 +27,7 @@ export default function Projects() {
     const spot = root.querySelector<HTMLElement>('[data-frbp="spot"]');
     const titleEl = root.querySelector<HTMLElement>('[data-frbp="title"]');
     const subEl = root.querySelector<HTMLElement>('[data-frbp="sub"]');
+    const metaEl = root.querySelector<HTMLElement>('[data-frbp="meta"]');
     const counterEl = root.querySelector<HTMLElement>('[data-frbp="counter"]');
     const plateWrap = root.querySelector<HTMLElement>('[data-frbp="plate"]');
     const byIdx = (sel: string, attr: string) =>
@@ -74,6 +77,7 @@ export default function Projects() {
       const swap = () => {
         if (titleEl) titleEl.textContent = meta[i].title;
         if (subEl) subEl.textContent = meta[i].sub.toUpperCase();
+        if (metaEl) metaEl.textContent = meta[i].meta;
         if (plateWrap) plateWrap.style.opacity = "1";
       };
       // program plate cross-fades (150ms) when the live poster changes
@@ -213,19 +217,26 @@ export default function Projects() {
     };
   }, []);
 
+  // keep the case CTA out of the stage's drag/dolly machinery
+  const stopPtr = (e: React.PointerEvent) => e.stopPropagation();
+
   return (
     <section className="hm-projects" id="projects">
       <div className="hm-section-head">
-        <Slate idx="02" name="Projects" sub="Selected work, presented with context" />
+        <Slate idx="02" name="Selected work" sub="Presented with context" />
       </div>
 
       <div className="hm-proj-title">
-        On the marquee<span className="hm-dot">.</span>
+        Selected work<span className="hm-dot">.</span>
         <span className="hm-proj-note">
           <span className="hm-proj-note-rule" />
-          DRAG TO WALK THE WALL
+          BUILT FOR THE ROOM. FINISHED FOR THE SCREEN.
         </span>
       </div>
+      <p className="hm-proj-intro">
+        Concerts, broadcasts, artist specials, and live event films built for audiences in the
+        room and online.
+      </p>
 
       {/* desktop: 3D concourse */}
       <div className="hm-concourse" ref={rootRef}>
@@ -244,7 +255,25 @@ export default function Projects() {
                   <div className="hm-poster-sheen" />
                   <div className="hm-poster-ch">
                     <span className="hm-poster-tally" data-frbp-tally={it.idx} />
-                    <span className="hm-poster-ch-label">{it.ch}</span>
+                    <span className="hm-poster-ch-label">{it.meta}</span>
+                  </div>
+                  <div className="hm-case-plate">
+                    <div className="hm-case-grid">
+                      <span>Format</span>
+                      <span className="hm-v">{it.format}</span>
+                      <span>Role</span>
+                      <span className="hm-v">{it.role}</span>
+                      <span>Output</span>
+                      <span className="hm-v">{it.output}</span>
+                    </div>
+                    <a
+                      href="#book"
+                      className="hm-case-cta"
+                      onPointerDown={stopPtr}
+                      onPointerUp={stopPtr}
+                    >
+                      Discuss a similar show
+                    </a>
                   </div>
                 </div>
               </div>
@@ -258,11 +287,14 @@ export default function Projects() {
           <div className="hm-plate-title-row">
             <span className="hm-plate-dot" />
             <span className="hm-plate-title" data-frbp="title">
-              Elton John
+              Reba
             </span>
           </div>
           <div className="hm-plate-sub" data-frbp="sub">
-            BENEFIT CONCERT / LARGE-FORMAT LIVE CAPTURE — PETCO PARK
+            CONCERT FILM / LIVE PRODUCTION — MADISON SQUARE GARDEN
+          </div>
+          <div className="hm-plate-meta" data-frbp="meta">
+            Concert film
           </div>
         </div>
         <div className="hm-strip-wrap">
@@ -290,6 +322,11 @@ export default function Projects() {
             </div>
             <div className="hm-sprockets" />
           </div>
+          <div className="hm-proj-cta-row">
+            <a href="#book" className="hm-proj-cta">
+              Talk through your event
+            </a>
+          </div>
         </div>
       </div>
 
@@ -297,23 +334,38 @@ export default function Projects() {
       <div className="hm-proj-mobile">
         <div className="hm-proj-swipe-note">
           <span className="hm-proj-note-rule" />
-          Swipe the wall — 07 titles
+          Swipe selected work — 07 titles
         </div>
         <div className="hm-swipe-rail">
           {PROJECT_ITEMS.map((it) => (
-            <div key={it.idx} className="hm-swipe-card">
+            <div key={it.idx} className="hm-swipe-card" style={{ width: it.wM }}>
               <div className="hm-swipe-poster">
                 <img src={it.file} alt={`${it.title} poster`} draggable={false} loading="lazy" />
                 <div className="hm-swipe-ch">
                   <span className="hm-d" />
-                  <span className="hm-c">{it.ch}</span>
+                  <span className="hm-c">{it.meta}</span>
                 </div>
               </div>
               <div className="hm-swipe-credit">
                 {it.title} — {it.sub}
+                <br />
+                <span className="hm-swipe-credit-meta">{it.meta}</span>
+              </div>
+              <div className="hm-swipe-specs">
+                <span>Format</span>
+                <span className="hm-v">{it.format}</span>
+                <span>Role</span>
+                <span className="hm-v">{it.role}</span>
+                <span>Output</span>
+                <span className="hm-v">{it.output}</span>
               </div>
             </div>
           ))}
+        </div>
+        <div className="hm-proj-cta-row">
+          <a href="#book" className="hm-proj-cta hm-proj-cta-wide">
+            Talk through your event
+          </a>
         </div>
       </div>
     </section>

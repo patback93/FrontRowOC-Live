@@ -10,14 +10,15 @@ const LOGOS: Array<{ file: string; alt: string; h: number }> = [
   { file: "blizzard", alt: "Blizzard Entertainment", h: 26 },
 ];
 
+// Proof strip — red mono kicker + trust line on the left, the seven
+// partner wordmarks spaced across the right, on the deeper ink plate.
 export default function CreditBanner() {
   return (
-    <section className="hm-credits" aria-label="Selected clients and partners">
+    <section className="hm-credits" aria-label="Proof of stage">
       <div className="hm-credits-intro">
-        <div className="hm-credits-kicker">Selected Clients &amp; Partners</div>
+        <div className="hm-credits-kicker">Proof of stage</div>
         <p className="hm-credits-line">
-          Trusted across artist specials, national stages, brand events, and livestream
-          platforms.
+          Trusted across concerts, livestreams, label events, and national stages.
         </p>
       </div>
       <div className="hm-credits-logos">

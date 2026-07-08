@@ -6,7 +6,7 @@ import Lockup from "./Lockup";
 const LINKS = [
   { idx: "00", href: "#who", label: "Who we are" },
   { idx: "01", href: "#services", label: "What we do" },
-  { idx: "02", href: "#projects", label: "Projects" },
+  { idx: "02", href: "#projects", label: "Selected work" },
   { idx: "03", href: "#book", label: "Contact" },
 ];
 
@@ -34,6 +34,9 @@ export default function HomeNav() {
               {l.label}
             </a>
           ))}
+          <a href="#book" className="hm-nav-cta">
+            Check availability
+          </a>
         </nav>
 
         <button
@@ -56,6 +59,7 @@ export default function HomeNav() {
               CLOSE ✕
             </button>
           </div>
+          <div className="hm-menu-tagline">Cinematic multicam / live event films</div>
           <nav className="hm-menu-links" aria-label="Mobile">
             {LINKS.map((l) => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)}>

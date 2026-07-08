@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import Slate from "./Slate";
-import { EVENT_TYPES } from "./data";
+import { EVENT_TYPES, NEXT_STEPS } from "./data";
 
-// 03 Contact — the booking sheet. POSTs to /api/booking, which relays
-// to the same Apps Script webhook as the /galas hold form (see
-// APPS-SCRIPT.md) and lands in hello@frontrowoc.com. Mirrors the hold
-// form's honeypot ("company") and fail-soft error copy.
+// 03 Contact — the availability request. POSTs to /api/booking, which
+// relays to the same Apps Script webhook as the /galas hold form (see
+// APPS-SCRIPT.md) and lands in hello@frontrowoc.com. Essentials only
+// per the design ("Send the essentials"): name, email, date, venue,
+// event type, notes. Mirrors the hold form's honeypot ("company") and
+// fail-soft error copy.
 type Fields = {
   name: string;
-  org: string;
   email: string;
-  phone: string;
   date: string;
   venue: string;
   notes: string;
@@ -21,9 +21,7 @@ type Fields = {
 
 const EMPTY: Fields = {
   name: "",
-  org: "",
   email: "",
-  phone: "",
   date: "",
   venue: "",
   notes: "",
@@ -72,9 +70,7 @@ export default function BookingSheet() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           name: f.name.trim(),
-          org: f.org.trim(),
           email: f.email.trim(),
-          phone: f.phone.trim(),
           date: f.date.trim(),
           venue: f.venue.trim(),
           type: type >= 0 ? EVENT_TYPES[type] : "",
@@ -117,15 +113,27 @@ export default function BookingSheet() {
       </div>
 
       <div className="hm-book-title">
-        <div className="hm-bt-1">Hold the</div>
+        <div className="hm-bt-1">Tell us</div>
         <div className="hm-bt-2 hm-outline">
-          date<span className="hm-dot">.</span>
+          the date<span className="hm-dot">.</span>
         </div>
       </div>
       <p className="hm-book-lede">
-        Tell us the date, venue, and shape of the show. We&rsquo;ll confirm availability,
-        recommend the right camera plan, and send back a clean path forward.
+        Send the essentials. We&rsquo;ll respond with availability, a recommended approach, and
+        the next steps to hold your date.
       </p>
+
+      <div className="hm-next">
+        <div className="hm-next-label">What happens next</div>
+        <div className="hm-next-grid">
+          {NEXT_STEPS.map((step, i) => (
+            <div key={step} className="hm-next-step">
+              <span className="hm-next-idx">0{i + 1}</span>
+              <span className="hm-next-name">{step}</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="hm-book-body">
         {!sent ? (
@@ -139,16 +147,8 @@ export default function BookingSheet() {
                 <input id="ct-name" type="text" placeholder="Your name" value={f.name} onChange={set("name")} className={cls("name")} />
               </div>
               <div className="hm-field">
-                <label htmlFor="ct-org">Organization</label>
-                <input id="ct-org" type="text" placeholder="Company, org, or artist" value={f.org} onChange={set("org")} />
-              </div>
-              <div className="hm-field">
                 <label htmlFor="ct-email">Email *</label>
                 <input id="ct-email" type="email" placeholder="you@org.com" value={f.email} onChange={set("email")} className={cls("email")} />
-              </div>
-              <div className="hm-field">
-                <label htmlFor="ct-phone">Phone</label>
-                <input id="ct-phone" type="tel" placeholder="(714) 555-0000" value={f.phone} onChange={set("phone")} />
               </div>
               <div className="hm-field">
                 <label htmlFor="ct-date">Event date *</label>
@@ -177,11 +177,11 @@ export default function BookingSheet() {
             </div>
 
             <div className="hm-field hm-notes">
-              <label htmlFor="ct-notes">About the show</label>
+              <label htmlFor="ct-notes">Notes / what are we filming?</label>
               <textarea
                 id="ct-notes"
                 rows={4}
-                placeholder="Audience size, run of show, screens in the room, where it streams — whatever you have so far."
+                placeholder="Audience size, venue, screens in the room, livestream needs, deliverables — whatever you have so far."
                 value={f.notes}
                 onChange={set("notes")}
               />
@@ -203,7 +203,9 @@ export default function BookingSheet() {
               <button type="submit" className="hm-btn-primary" disabled={sending}>
                 {sending ? "Sending…" : "Check availability"}
               </button>
-              <span className="hm-req-note">* Required — everything else can come later</span>
+              <span className="hm-req-note">
+                No hard sell. Just availability, scope, and the right next step.
+              </span>
             </div>
             {error && (
               <p className="hm-sheet-error" role="alert">
@@ -223,11 +225,11 @@ export default function BookingSheet() {
               on the board.
             </div>
             <p className="hm-received-copy">
-              We&rsquo;ll confirm availability, recommend the right camera plan for your show, and
-              send back a clean path forward — usually within one business day.
+              We&rsquo;ll review the details and follow up with availability, a recommended crew
+              shape, and next steps.
             </p>
             <a href="#book" className="hm-received-reset" onClick={reset}>
-              Send another sheet
+              Send another request
             </a>
           </div>
         )}

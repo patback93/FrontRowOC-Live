@@ -13,7 +13,7 @@ const archivo = Archivo({
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["500"],
+  weight: ["500", "600"],
   display: "swap",
   variable: "--font-plex-mono",
 });

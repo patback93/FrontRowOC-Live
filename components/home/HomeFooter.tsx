@@ -1,7 +1,7 @@
 import Lockup from "./Lockup";
 
 // Footer — bookends the header lockup, socials as logo glyphs,
-// quick links mirror the section running order.
+// positioning tagline, quick links mirror the section running order.
 export default function HomeFooter() {
   return (
     <footer className="hm-footer">
@@ -26,13 +26,16 @@ export default function HomeFooter() {
             </svg>
           </a>
         </div>
+        <div className="hm-footer-tagline">
+          Cinematic multicam production for live events, broadcasts, and films.
+        </div>
         <div className="hm-footer-meta">Orange County, CA — © 2026 Mixone Cinema</div>
       </div>
       <nav className="hm-footer-links" aria-label="Footer">
         <span className="hm-fl-head">Quick links</span>
         <a href="#who">Who we are</a>
         <a href="#services">What we do</a>
-        <a href="#projects">Projects</a>
+        <a href="#projects">Selected work</a>
         <a href="#book">Contact</a>
       </nav>
     </footer>

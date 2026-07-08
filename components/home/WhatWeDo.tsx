@@ -119,6 +119,10 @@ export default function WhatWeDo() {
               {isOpen && (
                 <div className="hm-svc-panel" style={{ marginLeft: `var(--svc-indent-${i})` }}>
                   <div className="hm-body">{d.body}</div>
+                  <div className="hm-svc-ideal">
+                    <span className="hm-i-label">Ideal for</span>
+                    <span className="hm-i-desc">{d.idealFor}</span>
+                  </div>
                   {(d.roles ?? []).map((r, j) => (
                     <div
                       key={r.name}

@@ -1,11 +1,12 @@
 import { test, expect } from "@playwright/test";
 import http from "http";
 
-// Homepage (/) — sections render, interactions work, and the booking
-// sheet posts through /api/booking to the mocked HOLD_WEBHOOK_URL
-// (127.0.0.1:9911, set by playwright.config.ts for the managed
-// webServer — the same hook hold-form.spec.ts mocks; suites run
-// sequentially with workers:1 and each closes its listener in afterAll).
+// Homepage (/) — sections render, interactions work, and the
+// availability request posts through /api/booking to the mocked
+// HOLD_WEBHOOK_URL (127.0.0.1:9911, set by playwright.config.ts for
+// the managed webServer — the same hook hold-form.spec.ts mocks;
+// suites run sequentially with workers:1 and each closes its
+// listener in afterAll).
 
 type Hit = { url: string; body: Record<string, unknown> };
 let server: http.Server;
@@ -35,45 +36,65 @@ test.beforeEach(() => {
 test("sections render in running order with slates", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Front Row Broadcast/);
-  for (const id of ["who", "services", "projects", "book"]) {
+  for (const id of ["top", "who", "system", "services", "projects", "book"]) {
     await expect(page.locator(`#${id}`)).toHaveCount(1);
   }
   await expect(page.locator(".hm-slate")).toHaveCount(4);
-  // credit banner carries all seven partner logos
+  // hero headline + proof strip with all seven partner logos
+  await expect(page.locator(".hm-hero-headline")).toContainText("broadcast backbone");
   await expect(page.locator(".hm-credit-logo")).toHaveCount(7);
+});
+
+test("hero reel card opens the modal; Esc closes it", async ({ page }) => {
+  await page.goto("/");
+  await page.locator(".hm-reel-card").click();
+  await expect(page.locator(".hm-modal-dialog")).toBeVisible();
+  await expect(page.locator(".hm-modal-title")).toHaveText("Watch the reel");
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".hm-modal")).toHaveCount(0);
 });
 
 test("who-we-are statement reveals on scroll", async ({ page }) => {
   await page.goto("/");
   await page.locator("#who").scrollIntoViewIfNeeded();
-  await expect(page.locator(".hm-l2")).toHaveText("Cinematic");
+  await expect(page.locator(".hm-l2")).toHaveText("High-stakes");
   await expect(page.locator(".hm-l2")).toHaveCSS("opacity", "1", { timeout: 10_000 });
 });
 
-test("services accordion: five items, first open, toggling works", async ({ page }) => {
+test("system section: three phases and four standards", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#system").scrollIntoViewIfNeeded();
+  await expect(page.locator(".hm-sys-card")).toHaveCount(3);
+  await expect(page.locator(".hm-sys-card.hm-hot .hm-sys-card-idx")).toContainText("During the show");
+  await expect(page.locator(".hm-std-cell")).toHaveCount(4);
+});
+
+test("services accordion: five items, first open, ideal-for row, toggling works", async ({ page }) => {
   await page.goto("/");
   await page.locator("#services").scrollIntoViewIfNeeded();
   await expect(page.locator(".hm-svc")).toHaveCount(5);
   await expect(page.locator(".hm-svc.hm-open")).toHaveCount(1);
   await expect(page.locator(".hm-svc-panel")).toBeVisible();
+  await expect(page.locator(".hm-svc-ideal .hm-i-desc")).toContainText("Arena shows");
 
-  // open Technical Resources — the crew sheet lists eight roles
+  // open Technical Direction & Crew — the crew sheet lists eight roles
   await page.locator(".hm-svc-head").nth(4).click();
   await expect(page.locator(".hm-svc-role")).toHaveCount(8);
 });
 
-test("projects concourse initializes with seven posters and live plate", async ({ page }) => {
+test("selected-work concourse initializes with seven posters and live plate", async ({ page }) => {
   await page.goto("/");
   await page.locator("#projects").scrollIntoViewIfNeeded();
   await expect(page.locator("[data-frbp-case]")).toHaveCount(7);
   await expect(page.locator('[data-frbp="counter"]')).toHaveText("01 / 07", { timeout: 10_000 });
+  await expect(page.locator('[data-frbp="meta"]')).toHaveText("Concert film");
   // clicking the last contact-strip frame dollies the wall to CH 07
   await page.locator("[data-frbp-tick='6']").click();
-  await expect(page.locator('[data-frbp="title"]')).toHaveText("Mary J. Blige", { timeout: 10_000 });
+  await expect(page.locator('[data-frbp="title"]')).toHaveText("Elton John", { timeout: 10_000 });
   await expect(page.locator('[data-frbp="counter"]')).toHaveText("07 / 07");
 });
 
-test("booking sheet: required-field validation blocks empty submit", async ({ page }) => {
+test("availability request: required-field validation blocks empty submit", async ({ page }) => {
   await page.goto("/");
   await page.locator("#book").scrollIntoViewIfNeeded();
   await page.locator(".hm-btn-primary").click();
@@ -83,11 +104,10 @@ test("booking sheet: required-field validation blocks empty submit", async ({ pa
   expect(hits.length).toBe(0);
 });
 
-test("booking sheet happy path: webhook receives payload, confirmation shows", async ({ page }) => {
+test("availability request happy path: webhook receives payload, confirmation shows", async ({ page }) => {
   await page.goto("/");
   await page.locator("#book").scrollIntoViewIfNeeded();
   await page.locator("#ct-name").fill("Jane Producer");
-  await page.locator("#ct-org").fill("OC Events");
   await page.locator("#ct-email").fill("jane@ocevents.com");
   await page.locator("#ct-date").fill("10/03/2026");
   await page.locator("#ct-venue").fill("Honda Center, Anaheim");
@@ -131,5 +151,16 @@ test("mobile: burger menu opens, swipe rail replaces concourse", async ({ browse
 
   await expect(page.locator(".hm-concourse")).toBeHidden();
   await expect(page.locator(".hm-swipe-card")).toHaveCount(7);
+  // each swipe card carries the metadata grid
+  await expect(page.locator(".hm-swipe-specs")).toHaveCount(7);
   await ctx.close();
+});
+
+test("sticky CTA shows after the hero and hides at the contact section", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".hm-sticky")).toHaveAttribute("data-state", "hidden");
+  await page.locator("#services").scrollIntoViewIfNeeded();
+  await expect(page.locator(".hm-sticky")).toHaveAttribute("data-state", "shown", { timeout: 5_000 });
+  await page.locator("#book").scrollIntoViewIfNeeded();
+  await expect(page.locator(".hm-sticky")).toHaveAttribute("data-state", "hidden", { timeout: 5_000 });
 });

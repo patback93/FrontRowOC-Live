@@ -174,19 +174,19 @@ export default function WhoWeAre() {
 
       <div className="hm-who-statement" data-fw-blur="">
         <div className="hm-ws hm-l1" data-enter="">
-          We&rsquo;re a premium
+          Built for
         </div>
         <div className="hm-ws hm-l2 hm-outline" data-enter="">
-          Cinematic
+          High-stakes
         </div>
         <div className="hm-ws hm-l3" data-enter="">
-          Multicam
+          Live work
         </div>
         <div className="hm-ws hm-l4" data-enter="">
-          video production
+          where the picture
         </div>
         <div className="hm-ws hm-l5" data-enter="">
-          company
+          has to hold
           <span className="hm-dot" data-period>
             .
           </span>
@@ -196,16 +196,18 @@ export default function WhoWeAre() {
       <div className="hm-who-copy" data-fw-blur="" data-enter="">
         <div className="hm-who-copy-inner">
           <p className="hm-body">
-            We build live video systems that feel like a film crew and hold like a broadcast
-            truck — camera plots, engineering, live switching, recording, and delivery handled
-            by one senior team.
+            We build cinematic coverage systems for events that only happen once — pairing
+            cinema cameras, live switching, comms, records, and post-ready deliverables into
+            one calm show-day workflow.
           </p>
           <div className="hm-who-creds">
-            Orange County based / travel ready
+            Based in Orange County
             <br />
-            Senior crew on every show
+            Built for no-second-take events
             <br />
-            Trusted by artists, brands, donors, and venues
+            Cinema look, broadcast discipline
+            <br />
+            Lean senior crew, scalable systems
           </div>
         </div>
       </div>

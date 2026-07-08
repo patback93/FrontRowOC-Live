@@ -4,20 +4,22 @@ import HomeNav from "@/components/home/HomeNav";
 import HomeHero from "@/components/home/HomeHero";
 import CreditBanner from "@/components/home/CreditBanner";
 import WhoWeAre from "@/components/home/WhoWeAre";
+import HomeSystem from "@/components/home/HomeSystem";
 import WhatWeDo from "@/components/home/WhatWeDo";
 import Projects from "@/components/home/Projects";
 import BookingSheet from "@/components/home/BookingSheet";
 import HomeFooter from "@/components/home/HomeFooter";
+import StickyCta from "@/components/home/StickyCta";
 
 export const metadata: Metadata = {
   title: "Front Row Broadcast — Cinematic Multicam Video Production | Orange County",
   description:
-    "We're a premium cinematic multicam video production company — concert films, livestreams, festival IMAG, corporate and gala broadcast, engineered to hold up when there's no second take.",
+    "Live event films with broadcast backbone — cinematic multicam production for concerts, galas, brand events, and livestreams, engineered for the room, the stream, and the final cut.",
   alternates: { canonical: "https://frontrowoc.com" },
   openGraph: {
     title: "Front Row Broadcast — Cinematic Multicam Video Production",
     description:
-      "The look of a feature film, the reliability of live broadcast — cinema cameras on every angle, cut live.",
+      "Live event films with broadcast backbone — cinematic multicam production for concerts, galas, brand events, and livestreams.",
     url: "https://frontrowoc.com",
     siteName: "Front Row Broadcast",
     locale: "en_US",
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Front Row Broadcast — Cinematic Multicam Video Production",
     description:
-      "The look of a feature film, the reliability of live broadcast — cinema cameras on every angle, cut live.",
+      "Live event films with broadcast backbone — cinematic multicam production for concerts, galas, brand events, and livestreams.",
     images: ["/home/og.jpg"],
   },
 };
@@ -72,11 +74,13 @@ export default function Home() {
         <HomeHero />
         <CreditBanner />
         <WhoWeAre />
+        <HomeSystem />
         <WhatWeDo />
         <Projects />
         <BookingSheet />
       </main>
 
+      <StickyCta />
       <HomeFooter />
     </div>
   );
