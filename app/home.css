@@ -206,27 +206,27 @@ html { scroll-behavior: smooth; }
    ============================================================ */
 .hm-credits {
   display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 28px 56px;
+  flex-wrap: wrap; gap: 28px 44px;
   padding: 34px 48px;
   border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
 }
-.hm-credits-intro { flex: 0 1 340px; max-width: 380px; }
+.hm-credits-intro { flex: 0 1 250px; max-width: 270px; }
 .hm-credits-kicker {
-  font-family: var(--f-mono); font-weight: 600; font-size: 12px;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent);
-  margin-bottom: 12px;
+  font-family: var(--f-mono); font-weight: 600; font-size: 10.5px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 8px;
 }
 .hm-credits-line {
   font-family: var(--f-body); font-weight: 500;
-  font-size: clamp(17px, 1.5vw, 21px); line-height: 1.32;
-  letter-spacing: -0.005em; color: rgba(246,243,236,0.82);
+  font-size: clamp(12.5px, 1vw, 14px); line-height: 1.42;
+  letter-spacing: -0.003em; color: rgba(246,243,236,0.8);
 }
 .hm-credits-logos {
-  display: flex; align-items: center; flex-wrap: wrap; gap: 20px 32px;
-  flex: 1 1 auto; justify-content: flex-end;
+  display: flex; align-items: center; align-content: center; flex-wrap: wrap;
+  gap: 22px 30px; flex: 1 1 0; min-width: 0; justify-content: flex-end;
 }
 .hm-credit-logo {
-  height: var(--h); width: auto; opacity: 0.7;
+  height: calc(var(--h) * 1.4); width: auto; opacity: 0.7;
   transition: opacity 200ms ease-out;
 }
 .hm-credit-logo:hover { opacity: 1; }
@@ -559,9 +559,9 @@ html { scroll-behavior: smooth; }
 
   .hm-credits { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
   .hm-credits-intro { flex: none; max-width: none; }
-  .hm-credits-line { font-size: 18px; }
-  .hm-credits-logos { justify-content: flex-start; gap: 16px 22px; }
-  .hm-credit-logo { height: calc(var(--h) * 0.58); }
+  .hm-credits-line { font-size: 13px; }
+  .hm-credits-logos { justify-content: flex-start; gap: 22px 30px; }
+  .hm-credit-logo { height: calc(var(--h) * 0.82); }
 
   /* who */
   .hm-who { padding: 36px 20px 0; }
