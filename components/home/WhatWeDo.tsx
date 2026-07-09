@@ -112,8 +112,10 @@ export default function WhatWeDo() {
                   <span>{noteShown(d.note, i)}</span>
                 </div>
                 <div className="hm-svc-title" style={{ marginLeft: `var(--svc-indent-${i})` }}>
-                  <span className="hm-hl">{d.title}</span>
-                  {isOpen && <span className="hm-svc-period">.</span>}{" "}
+                  <span className="hm-svc-lead">
+                    <span className="hm-hl">{d.title}</span>
+                    {isOpen && <span className="hm-svc-period">.</span>}
+                  </span>
                   <span className="hm-svc-marker" aria-hidden="true">
                     <span className="hm-m-rule" />
                     <span>{isOpen ? "−" : "+"}</span>
@@ -143,13 +145,11 @@ export default function WhatWeDo() {
                       <span className="hm-r-desc">{r.desc}</span>
                     </div>
                   ))}
-                  {/* vertical-page link — renders once a service has a real
-                      href (Corporate is live; the rest stay "#" until built) */}
-                  {d.href !== "#" && (
-                    <a className="hm-svc-explore" href={d.href}>
-                      Explore {d.title} <span aria-hidden="true">→</span>
-                    </a>
-                  )}
+                  {/* per-row CTA — label + destination from data (vertical
+                      page for Corporate/Gala, on-page anchor for the rest) */}
+                  <a className="hm-svc-explore" href={d.href}>
+                    {d.cta} <span aria-hidden="true">→</span>
+                  </a>
                 </div>
               )}
             </div>

@@ -6,10 +6,10 @@ import Lockup from "./Lockup";
 // order + indices mirror the page's running order (Selected work leads,
 // just under the logo bar; Plan is the compact process section)
 const LINKS = [
-  { idx: "01", href: "#projects", label: "Selected work" },
+  { idx: "01", href: "#selected-work", label: "Selected work" },
   { idx: "02", href: "#services", label: "What we do" },
   { idx: "03", href: "#plan", label: "Plan" },
-  { idx: "04", href: "#book", label: "Availability" },
+  { idx: "04", href: "#availability", label: "Availability" },
 ];
 
 export default function HomeNav() {
@@ -36,7 +36,7 @@ export default function HomeNav() {
               {l.label}
             </a>
           ))}
-          <a href="#book" className="hm-nav-cta">
+          <a href="#availability" className="hm-nav-cta">
             Check availability
           </a>
         </nav>
@@ -70,7 +70,7 @@ export default function HomeNav() {
               </a>
             ))}
           </nav>
-          <a href="#book" className="hm-menu-cta" onClick={() => setOpen(false)}>
+          <a href="#availability" className="hm-menu-cta" onClick={() => setOpen(false)}>
             Check availability
           </a>
         </div>

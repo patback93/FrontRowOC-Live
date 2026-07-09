@@ -29,52 +29,55 @@ export const PROJECT_ITEMS: ProjectItem[] = [
 export type ServiceRole = { name: string; desc: string };
 export type Service = {
   title: string;
-  href: string; // vertical landing page — Corporate is live; the rest are
-  // "#" placeholders, ready to point at their pages as they ship
-  indent: number; // staggered poster-line indent (px, desktop)
-  note: string; // mono annotation chip
+  href: string; // destination — a vertical landing page (Corporate/Gala,
+  // Corporate live / Gala pending) or an on-page anchor (#selected-work,
+  // #availability)
+  cta: string; // per-row CTA label shown in the open panel
+  note: string; // mono annotation chip — number ascends with row order
   idealFor: string; // "Ideal for" row in the open panel
   body: string;
   roles?: ServiceRole[];
 };
 
+// Owner-directed row order + per-row CTAs. Note numbers ascend with the
+// row order; each note's descriptor stays with its service.
 export const SERVICES: Service[] = [
-  {
-    title: "Concert Films & Livestreams",
-    href: "#",
-    indent: 0,
-    note: "01 — Camera plan, live cut, final delivery",
-    idealFor: "Arena shows, artist specials, livestream premieres, tour captures.",
-    body: "Cinema-camera coverage for concerts and artist specials, switched live and finished for release. We handle the camera plot, engineering, recording, program cut, and delivery path so the show looks intentional in the room, online, and in the archive.",
-  },
-  {
-    title: "Touring IMAG & Festival Screens",
-    href: "#",
-    indent: 120,
-    note: "02 — Big-screen picture that travels",
-    idealFor: "Headline sets, festival stages, touring packages, venue screens.",
-    body: "Clean, cinematic IMAG for headline sets, festivals, and touring packages. We build the signal chain, integrate with stage/video departments, and keep the picture consistent from rehearsal through doors.",
-  },
   {
     title: "Corporate & Brand Broadcasts",
     href: "/corporate-event-video-production-orange-county",
-    indent: 40,
-    note: "03 — Premium picture for high-visibility rooms",
+    cta: "Explore Corporate & Brand Broadcasts",
+    note: "01 — Premium picture for high-visibility rooms",
     idealFor: "Launches, executive events, conferences, brand moments.",
     body: "Multicamera coverage for keynotes, launches, conferences, and branded moments. We work alongside AV and staging teams to create a polished live cut, stream, and recording that feels aligned with the brand.",
   },
   {
     title: "Galas & Fundraiser Programs",
-    href: "#",
-    indent: 180,
-    note: "04 — Quiet, polished, donor-facing",
+    href: "/gala-fundraiser-video-production",
+    cta: "Explore Gala Page",
+    note: "02 — Quiet, polished, donor-facing",
     idealFor: "Donor rooms, honoree programs, live auctions, hybrid galas.",
     body: "Elegant live video support for formal rooms: stage coverage, IMAG, giving moments, stream feeds, and recap-ready recordings. The crew stays discreet, the picture stays composed, and the program keeps moving.",
   },
   {
+    title: "Concert Films & Livestreams",
+    href: "#selected-work",
+    cta: "View Selected Work",
+    note: "03 — Camera plan, live cut, final delivery",
+    idealFor: "Arena shows, artist specials, livestream premieres, tour captures.",
+    body: "Cinema-camera coverage for concerts and artist specials, switched live and finished for release. We handle the camera plot, engineering, recording, program cut, and delivery path so the show looks intentional in the room, online, and in the archive.",
+  },
+  {
+    title: "Touring IMAG & Festival Screens",
+    href: "#availability",
+    cta: "Talk Through the Show",
+    note: "04 — Big-screen picture that travels",
+    idealFor: "Headline sets, festival stages, touring packages, venue screens.",
+    body: "Clean, cinematic IMAG for headline sets, festivals, and touring packages. We build the signal chain, integrate with stage/video departments, and keep the picture consistent from rehearsal through doors.",
+  },
+  {
     title: "Technical Direction & Crew",
-    href: "#",
-    indent: 70,
+    href: "#availability",
+    cta: "Check Crew Availability",
     note: "05 — Senior operators, engineers, and support",
     idealFor: "Production teams, AV partners, festivals, shows needing senior video support.",
     body: "Bring in a focused broadcast team or fill the positions your show is missing:",
@@ -107,5 +110,5 @@ export const PLAN_PHASES: PlanPhase[] = [
   { idx: "03", label: "After", copy: "The final assets are already defined." },
 ];
 
-// 03 — what happens next strip
+// 04 — what happens next strip
 export const NEXT_STEPS = ["Availability", "Approach", "Hold"];

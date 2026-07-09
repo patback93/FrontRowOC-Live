@@ -479,7 +479,7 @@ body { margin: 0; padding: 0; background: #111013; }
 .hm-svc { opacity: 0; transform: translateY(26px); }
 .hm-svc.hm-revealed { opacity: 1; transform: translateY(0); }
 .hm-svc-head { padding: 26px 0 6px; cursor: pointer; }
-.hm-svc-head:hover { opacity: 0.88; }
+/* mono eyebrow — always visible, collapsed or open */
 .hm-svc-note {
   display: flex; align-items: center; gap: 12px; height: 17px; white-space: nowrap;
   font-family: var(--f-mono); font-weight: 600; font-size: 13px; letter-spacing: 0.18em;
@@ -490,27 +490,35 @@ body { margin: 0; padding: 0; background: #111013; }
   transition: width 420ms ease-out, background 200ms ease-out;
 }
 .hm-svc.hm-revealed .hm-svc-note .hm-dash { width: 44px; }
+/* headline row: lead text (+ optional red period) left, +/- marker right */
 .hm-svc-title {
-  margin-top: 8px;
+  margin-top: 8px; display: flex; align-items: flex-start; gap: 18px;
   font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: -0.012em;
-  font-size: clamp(30px, 3.9vw, 56px); line-height: 1.0; color: var(--paper);
+  font-size: clamp(30px, 3.9vw, 56px); line-height: 1.0;
+  color: rgba(246,243,236,0.6); /* closed: muted solid fill, no stroke */
+  transition: color 180ms ease-out;
 }
+.hm-svc-lead { flex: 1 1 auto; min-width: 0; }
 .hm-svc-title .hm-hl {
   background-image: linear-gradient(rgba(246,243,236,0.13), rgba(246,243,236,0.13));
   background-repeat: no-repeat; background-position: 0 80%; background-size: 0% 0.3em;
   transition: background-size 340ms ease-out;
 }
+.hm-svc-head:hover .hm-svc-title { color: var(--paper); } /* hover → full opacity */
 .hm-svc-head:hover .hm-svc-title .hm-hl { background-size: 100% 0.3em; }
 .hm-svc-marker {
-  display: inline-flex; align-items: center; gap: 10px; margin-left: 26px;
-  transform: translateY(-16px); -webkit-text-stroke: 0; color: rgba(246,243,236,0.5);
+  flex: none; margin-top: 6px; display: inline-flex; align-items: center; gap: 10px;
+  color: rgba(246,243,236,0.5); transition: color 180ms ease-out;
   font-family: var(--f-mono); font-weight: 600; font-size: 15px; letter-spacing: 0;
 }
-.hm-svc-marker .hm-m-rule { width: 34px; height: 1px; background: var(--line-3); display: inline-block; }
-/* open state */
-.hm-svc.hm-open .hm-svc-title { color: transparent; -webkit-text-stroke: 2px var(--paper); }
+.hm-svc-marker .hm-m-rule { width: 34px; height: 1px; background: var(--line-3); display: inline-block; transition: background 180ms ease-out; }
+/* open state: solid full fill + red period + red marker (NO outline stroke —
+   that treatment is reserved for the "THE DATE" headline) */
+.hm-svc.hm-open .hm-svc-title { color: var(--paper); }
+.hm-svc.hm-open .hm-svc-marker { color: var(--accent); }
+.hm-svc.hm-open .hm-svc-marker .hm-m-rule { background: var(--accent); }
 .hm-svc.hm-open .hm-svc-note .hm-dash { background: var(--accent); }
-.hm-svc-period { -webkit-text-stroke: 0; color: var(--accent); }
+.hm-svc-period { color: var(--accent); }
 
 .hm-svc-panel {
   margin: 14px 0 26px; max-width: 560px;
@@ -905,9 +913,8 @@ body { margin: 0; padding: 0; background: #111013; }
   .hm-svc-head { padding: 18px 0 4px; }
   .hm-svc-note { font-size: 8.5px; letter-spacing: 0.07em; gap: 8px; height: auto; }
   .hm-svc-note .hm-dash, .hm-svc.hm-revealed .hm-svc-note .hm-dash { width: 20px; }
-  .hm-svc-title { font-size: 21px; line-height: 1.08; margin-top: 5px; }
-  .hm-svc.hm-open .hm-svc-title { -webkit-text-stroke-width: 1px; }
-  .hm-svc-marker { transform: translateY(-4px); margin-left: 10px; font-size: 11px; gap: 0; }
+  .hm-svc-title { font-size: 21px; line-height: 1.08; margin-top: 5px; gap: 12px; }
+  .hm-svc-marker { flex: none; margin-top: 3px; font-size: 12px; gap: 0; }
   .hm-svc-marker .hm-m-rule { display: none; }
   .hm-svc-panel { padding-left: 14px; border-left: 1px solid var(--line-2); margin: 8px 0 18px; }
   .hm-svc-panel .hm-body { font-size: 13px; }

@@ -108,10 +108,10 @@ export default function HomeHero() {
             engineered for the room, the stream, and the final cut.
           </p>
           <div className="hm-hero-ctas" data-enter="ctas">
-            <a href="#book" className="hm-hero-cta-solid">
+            <a href="#availability" className="hm-hero-cta-solid">
               Check availability
             </a>
-            <a href="#projects" className="hm-hero-cta-ghost">
+            <a href="#selected-work" className="hm-hero-cta-ghost">
               View selected work
             </a>
           </div>
@@ -207,7 +207,7 @@ export default function HomeHero() {
               <p className="hm-modal-copy">
                 A quick look at cinematic coverage, live switching, and show-day execution.
               </p>
-              <a href="#book" className="hm-modal-cta" onClick={() => setOpen(false)}>
+              <a href="#availability" className="hm-modal-cta" onClick={() => setOpen(false)}>
                 Check availability
               </a>
             </div>

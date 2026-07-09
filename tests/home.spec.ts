@@ -36,7 +36,7 @@ test.beforeEach(() => {
 test("sections render in running order with slates", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Front Row Broadcast/);
-  for (const id of ["top", "projects", "services", "plan", "book"]) {
+  for (const id of ["top", "selected-work", "services", "plan", "availability"]) {
     await expect(page.locator(`#${id}`)).toHaveCount(1);
   }
   // deleted sections are fully gone
@@ -45,7 +45,7 @@ test("sections render in running order with slates", async ({ page }) => {
   // Selected work leads the content (just under the logo bar); slate
   // numbers ascend 01–04 in scroll order
   const sections = await page.locator("section[id]").evaluateAll((els) => els.map((e) => e.id));
-  expect(sections.indexOf("projects")).toBeLessThan(sections.indexOf("services"));
+  expect(sections.indexOf("selected-work")).toBeLessThan(sections.indexOf("services"));
   expect(sections.indexOf("services")).toBeLessThan(sections.indexOf("plan"));
   expect(await page.locator(".hm-slate-idx").allTextContents()).toEqual(["01", "02", "03", "04"]);
   // hero headline + proof strip with all seven partner logos
@@ -87,12 +87,13 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
   await expect(page.locator(".hm-svc")).toHaveCount(5);
   await expect(page.locator(".hm-svc.hm-open")).toHaveCount(1);
   await expect(page.locator(".hm-svc-panel")).toBeVisible();
-  await expect(page.locator(".hm-svc-ideal .hm-i-desc")).toContainText("Arena shows");
+  // first row is Corporate & Brand Broadcasts (owner-directed order)
+  await expect(page.locator(".hm-svc-ideal .hm-i-desc")).toContainText("Launches");
 
   // accordion a11y: expanded state, labels, wired panel, hidden marker
   const first = page.locator(".hm-svc-head").first();
   await expect(first).toHaveAttribute("aria-expanded", "true");
-  await expect(first).toHaveAttribute("aria-label", /^Collapse Concert Films/);
+  await expect(first).toHaveAttribute("aria-label", /^Collapse Corporate/);
   await expect(first).toHaveAttribute("aria-controls", "svc-panel-0");
   await expect(page.locator("#svc-panel-0")).toHaveAttribute("role", "region");
   await expect(page.locator(".hm-svc-marker").first()).toHaveAttribute("aria-hidden", "true");
@@ -101,25 +102,30 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
   await page.locator(".hm-svc-head").nth(4).click();
   await expect(page.locator(".hm-svc-role")).toHaveCount(8);
   await expect(first).toHaveAttribute("aria-expanded", "false");
-  await expect(first).toHaveAttribute("aria-label", /^Expand Concert Films/);
+  await expect(first).toHaveAttribute("aria-label", /^Expand Corporate/);
 
   // keyboard: Enter re-opens the first service
   await first.focus();
   await page.keyboard.press("Enter");
   await expect(first).toHaveAttribute("aria-expanded", "true");
 
-  // only Corporate & Brand Broadcasts exposes a live vertical-page link
-  await page.locator(".hm-svc-head").nth(2).click();
+  // every row has a per-row CTA; the open panel shows exactly one.
+  // Corporate (row 0, re-opened above) links to its vertical page.
   await expect(page.locator(".hm-svc-explore")).toHaveCount(1);
+  await expect(page.locator(".hm-svc-explore")).toContainText("Explore Corporate & Brand Broadcasts");
   await expect(page.locator(".hm-svc-explore")).toHaveAttribute(
     "href",
     "/corporate-event-video-production-orange-county",
   );
+  // an on-page-anchor CTA: Concert Films (row 2) → View Selected Work → #selected-work
+  await page.locator(".hm-svc-head").nth(2).click();
+  await expect(page.locator(".hm-svc-explore")).toContainText("View Selected Work");
+  await expect(page.locator(".hm-svc-explore")).toHaveAttribute("href", "#selected-work");
 });
 
 test("selected-work concourse initializes with seven posters and live plate", async ({ page }) => {
   await page.goto("/");
-  await page.locator("#projects").scrollIntoViewIfNeeded();
+  await page.locator("#selected-work").scrollIntoViewIfNeeded();
   await expect(page.locator("[data-frbp-case]")).toHaveCount(7);
   // desktop: the inactive mobile rail is out of the accessibility tree,
   // and the title annotation no longer concatenates ("work.BUILT")
@@ -134,19 +140,19 @@ test("selected-work concourse initializes with seven posters and live plate", as
   await expect(page.locator('[data-frbp="counter"]')).toHaveText("07 / 07");
 
   // the context-plate CTA is a real link — hover raises the plate and
-  // clicking navigates to #book (regression: the stage's pointer capture
+  // clicking navigates to #availability (regression: the stage's pointer capture
   // used to swallow the click). Re-click the tick first: the wall is
   // already centered on CH 07, so nothing moves, but it re-arms the 6s
   // idle-drift timer and gives the click a stable window.
   await page.locator("[data-frbp-tick='6']").click();
   await page.locator(".hm-poster-frame").nth(6).hover();
   await page.locator(".hm-case-cta").nth(6).click({ timeout: 5_000 });
-  await expect(page).toHaveURL(/#book$/);
+  await expect(page).toHaveURL(/#availability$/);
 });
 
 test("availability request: required-field validation blocks empty submit", async ({ page }) => {
   await page.goto("/");
-  await page.locator("#book").scrollIntoViewIfNeeded();
+  await page.locator("#availability").scrollIntoViewIfNeeded();
   // "What happens next" numbers read as one token ("01", never "0 1")
   expect(await page.locator(".hm-next-idx").first().textContent()).toBe("01");
   await page.locator(".hm-btn-primary").click();
@@ -159,7 +165,7 @@ test("availability request: required-field validation blocks empty submit", asyn
 
 test("availability request happy path: webhook receives payload, confirmation shows", async ({ page }) => {
   await page.goto("/");
-  await page.locator("#book").scrollIntoViewIfNeeded();
+  await page.locator("#availability").scrollIntoViewIfNeeded();
   await page.locator("#ct-name").fill("Jane Producer");
   await page.locator("#ct-email").fill("jane@ocevents.com");
   await page.locator("#ct-date").fill("10/03/2026");
@@ -220,6 +226,6 @@ test("sticky CTA shows after the hero and hides at the contact section", async (
   await expect(page.locator(".hm-sticky")).toHaveAttribute("data-state", "hidden");
   await page.locator("#services").scrollIntoViewIfNeeded();
   await expect(page.locator(".hm-sticky")).toHaveAttribute("data-state", "shown", { timeout: 5_000 });
-  await page.locator("#book").scrollIntoViewIfNeeded();
+  await page.locator("#availability").scrollIntoViewIfNeeded();
   await expect(page.locator(".hm-sticky")).toHaveAttribute("data-state", "hidden", { timeout: 5_000 });
 });

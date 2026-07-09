@@ -103,7 +103,7 @@ export default function BookingSheet() {
   const cls = (k: string) => (invalid.has(k) ? "hm-invalid" : undefined);
 
   return (
-    <section className="hm-book" id="book">
+    <section className="hm-book" id="availability">
       <div className="hm-section-head">
         <Slate idx="04" name="Check availability" sub="Dates, availability, and holds" />
       </div>
@@ -212,7 +212,7 @@ export default function BookingSheet() {
               We&rsquo;ll review the details and follow up with availability, a recommended crew
               shape, and next steps.
             </p>
-            <a href="#book" className="hm-received-reset" onClick={reset}>
+            <a href="#availability" className="hm-received-reset" onClick={reset}>
               Send another request
             </a>
           </div>

@@ -272,7 +272,7 @@ export default function Projects() {
   }, []);
 
   return (
-    <section className="hm-projects" id="projects">
+    <section className="hm-projects" id="selected-work">
       <div className="hm-section-head">
         <Slate idx="01" name="Selected work" sub="Presented with context" />
       </div>
@@ -317,7 +317,7 @@ export default function Projects() {
                       <span>Output</span>
                       <span className="hm-v">{it.output}</span>
                     </div>
-                    <a href="#book" className="hm-case-cta">
+                    <a href="#availability" className="hm-case-cta">
                       Discuss a similar show
                     </a>
                   </div>
@@ -369,7 +369,7 @@ export default function Projects() {
             <div className="hm-sprockets" />
           </div>
           <div className="hm-proj-cta-row">
-            <a href="#book" className="hm-proj-cta">
+            <a href="#availability" className="hm-proj-cta">
               Talk through your event
             </a>
           </div>
@@ -409,7 +409,7 @@ export default function Projects() {
           ))}
         </div>
         <div className="hm-proj-cta-row">
-          <a href="#book" className="hm-proj-cta hm-proj-cta-wide">
+          <a href="#availability" className="hm-proj-cta hm-proj-cta-wide">
             Talk through your event
           </a>
         </div>
