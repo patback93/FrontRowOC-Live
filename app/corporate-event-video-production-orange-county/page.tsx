@@ -102,7 +102,7 @@ const PHASES = [
     kicker: "Phase 03 — After the Event",
     title: "The final assets are already defined.",
     copy: "Records and deliverables follow the agreed path, so the event is not reinvented in post.",
-    items: ["Post-Event Deliverables"],
+    items: ["Post-Event Deliverables", "Recap / Clips", "Archive Delivery"],
   },
 ];
 
