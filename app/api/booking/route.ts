@@ -52,16 +52,20 @@ export async function POST(req: Request) {
     venue = field("venue"),
     type = field("type"),
     notes = field("notes").slice(0, 2000),
-    company = field("company");
+    company = field("company"),
+    // which form sent it — allowlisted so the sheet/email can segment leads
+    page = field("page") === "corporate" ? "corporate" : "home";
 
   // Honeypot: a filled "company" means a bot — return 200, forward nothing.
   if (company) {
     return NextResponse.json({ ok: true });
   }
 
-  if (!name || !email || !date) {
+  // email + date are the only requireds (name went optional in the
+  // owner-directed form rework; keep the API in lockstep)
+  if (!email || !date) {
     return NextResponse.json(
-      { ok: false, error: "Name, email, and event date are required." },
+      { ok: false, error: "Email and event date are required." },
       { status: 400 },
     );
   }
@@ -96,7 +100,7 @@ export async function POST(req: Request) {
         venue,
         type,
         notes,
-        page: "home",
+        page,
         ts: new Date().toISOString(),
         ua: req.headers.get("user-agent") ?? "",
       }),

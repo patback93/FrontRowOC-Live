@@ -123,12 +123,12 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
 
 ## Deployment notes (site-wide)
 
-- TODO(routes): the homepage buyer-path cards (components/home/HomePaths.tsx)
-  link to three landing pages that do not exist yet and currently 404:
-  `/corporate-event-video-production-orange-county`,
-  `/gala-fundraiser-video-production`,
-  `/event-agency-video-production-partner`. Create each as
-  `app/<route>/page.tsx` when the landing-page copy is ready.
+- TODO(routes): `/corporate-event-video-production-orange-county` is LIVE
+  (ported from the Claude Design standalone export; linked from the What-We-Do
+  Corporate row). Still pending and 404 until built:
+  `/gala-fundraiser-video-production` (linked from the What-We-Do Gala row).
+- TODO(cal): both availability forms ("Grab 15 minutes" on / and on the
+  corporate page) hold `href="#"` until the Cal.com/Calendly link exists.
 
 - TODO(deploy): Owner prefers **www**. All canonical/OG/JSON-LD URLs point at
   `https://www.frontrowoc.com` (app/layout.tsx metadataBase, app/page.tsx,
