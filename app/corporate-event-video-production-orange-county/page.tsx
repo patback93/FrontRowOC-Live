@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./corp.css";
 import CorpNav from "@/components/corp/CorpNav";
 import CorpMobileCta from "@/components/corp/CorpMobileCta";
@@ -351,7 +352,9 @@ export default function CorporatePage() {
 
       <footer className="cp-footer">
         <div className="cp-footer-left">
-          <CorpLockup tile={44} word={28} />
+          <Link href="/" className="cp-footer-home" aria-label="Front Row Broadcast home">
+            <CorpLockup tile={44} word={28} />
+          </Link>
           <div className="cp-socials">
             <a href="#" aria-label="Facebook">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -382,6 +385,9 @@ export default function CorporatePage() {
           <a href="#video-plan">Plan</a>
           <a href="#engagement-types">Engagements</a>
           <a href="#check-availability">Availability</a>
+          <Link href="/#selected-work">
+            View selected work <span aria-hidden="true">→</span>
+          </Link>
         </nav>
       </footer>
     </div>

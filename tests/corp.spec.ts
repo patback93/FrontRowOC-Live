@@ -59,6 +59,21 @@ test("corporate page renders all sections with resolving anchors", async ({ page
   for (const a of new Set(anchors)) {
     await expect(page.locator(a!)).toHaveCount(1);
   }
+
+  // no dead-end microsite: header + footer lockups link home, and the
+  // footer carries the subtle selected-work escape hatch
+  await expect(page.locator('.cp-nav a[aria-label="Front Row Broadcast home"]')).toHaveAttribute("href", "/");
+  await expect(page.locator(".cp-footer-home")).toHaveAttribute("href", "/");
+  await expect(page.locator(".cp-footer-home")).toHaveAttribute("aria-label", "Front Row Broadcast home");
+  const sw = page.locator('.cp-footer-links a[href="/#selected-work"]');
+  await expect(sw).toContainText("View selected work");
+  // hero CTA still jumps to the availability form
+  await expect(page.locator(".cp-cta-solid")).toHaveAttribute("href", "#check-availability");
+
+  // header logo actually lands on the homepage
+  await page.locator('.cp-nav a[aria-label="Front Row Broadcast home"]').click();
+  await page.waitForURL((u) => u.pathname === "/");
+  await expect(page.locator("#selected-work")).toHaveCount(1);
 });
 
 test("availability form: validation blocks, happy path tags page corporate", async ({ page }) => {
@@ -96,9 +111,15 @@ test("mobile: menu overlay + bottom CTA gating", async ({ browser }) => {
   const page = await ctx.newPage();
   await page.goto(ROUTE);
 
-  // burger opens the overlay; a link closes it and navigates
+  // burger opens the overlay: the four page anchors + the small
+  // "Front Row Home" escape hatch; the overlay lockup links home
   await page.locator(".cp-burger").tap();
   await expect(page.locator(".cp-menu")).toBeVisible();
+  for (const href of ["#what-we-cover", "#video-plan", "#engagement-types", "#check-availability"]) {
+    await expect(page.locator(`.cp-menu-links a[href="${href}"]`)).toHaveCount(1);
+  }
+  await expect(page.locator(".cp-menu-home")).toHaveAttribute("href", "/");
+  await expect(page.locator('.cp-menu a[aria-label="Front Row Broadcast home"]')).toHaveAttribute("href", "/");
   await page.locator('.cp-menu-links a[href="#video-plan"]').tap();
   await expect(page.locator(".cp-menu")).toHaveCount(0);
 
