@@ -12,19 +12,19 @@
 // Until then these links resolve to the app's 404 page.
 const PATHS = [
   {
-    title: "Plan a Corporate Broadcast",
+    title: "Corporate & Brand Events",
     href: "/corporate-event-video-production-orange-county",
-    copy: "Conferences, launches, town halls, brand events, livestreams, and post-event content.",
+    copy: "Conferences, launches, town halls, brand events, livestreams, and post-event content built from a broadcast-tested live-event workflow.",
   },
   {
-    title: "Film a Gala / Fundraiser",
+    title: "Galas & Fundraisers",
     href: "/gala-fundraiser-video-production",
-    copy: "Program capture, donor-facing recaps, remote-viewer support, sponsor assets, and archive deliverables.",
+    copy: "Program capture, donor-facing recaps, remote-viewer support, sponsor deliverables, and archive records for high-stakes fundraising events.",
   },
   {
-    title: "Partner With Us on a Live Event",
+    title: "Agency / AV Partnerships",
     href: "/event-agency-video-production-partner",
-    copy: "A senior video department for agencies, AV teams, venues, and live event producers.",
+    copy: "A senior video department for agencies, AV teams, venues, and producers who need camera systems, live cuts, records, and stream support handled.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function HomePaths() {
             <span className="hm-path-copy">{p.copy}</span>
             <span className="hm-path-go" aria-hidden="true">
               <span className="hm-path-go-rule" />
-              Start here
+              Explore
             </span>
           </a>
         ))}

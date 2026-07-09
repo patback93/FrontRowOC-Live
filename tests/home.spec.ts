@@ -68,11 +68,20 @@ test("buyer paths: three routed cards, cover row, keyboard reachable", async ({ 
   const cards = page.locator(".hm-path-card");
   await expect(cards).toHaveCount(3);
   await expect(cards.nth(0)).toHaveAttribute("href", "/corporate-event-video-production-orange-county");
-  await expect(cards.nth(0)).toContainText("Plan a Corporate Broadcast");
+  await expect(cards.nth(0)).toContainText("Corporate & Brand Events");
   await expect(cards.nth(1)).toHaveAttribute("href", "/gala-fundraiser-video-production");
-  await expect(cards.nth(1)).toContainText("Film a Gala / Fundraiser");
+  await expect(cards.nth(1)).toContainText("Galas & Fundraisers");
   await expect(cards.nth(2)).toHaveAttribute("href", "/event-agency-video-production-partner");
-  await expect(cards.nth(2)).toContainText("Partner With Us on a Live Event");
+  await expect(cards.nth(2)).toContainText("Agency / AV Partnerships");
+  // cards rest identical; the red accent edge appears only on the
+  // hovered or focused card (keyboard parity with hover)
+  const edge = (i) => cards.nth(i).evaluate((el) => getComputedStyle(el, "::before").opacity);
+  expect(await edge(0)).toBe("0");
+  expect(await edge(1)).toBe("0");
+  await cards.nth(1).hover();
+  await page.waitForTimeout(300);
+  expect(await edge(1)).toBe("1");
+  expect(await edge(0)).toBe("0");
   await expect(page.locator(".hm-cover")).toHaveCount(4);
   await expect(page.locator(".hm-cover-label").first()).toHaveText("For the room");
   // cards are plain links — focusable in order

@@ -404,19 +404,26 @@ body { margin: 0; padding: 0; background: #111013; }
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
   margin-top: 34px;
 }
+/* all three cards rest identical; the red accent edge marks only the
+   card the pointer or keyboard is on (hover and focus get the same
+   treatment) */
 .hm-path-card {
-  display: flex; flex-direction: column; min-height: 218px;
+  position: relative; display: flex; flex-direction: column; min-height: 218px;
   background: rgba(17,16,19,0.54); border: 1px solid var(--line);
   padding: 22px 22px 24px; text-decoration: none; color: var(--paper);
   transition: border-color 220ms ease-out, background 220ms ease-out, box-shadow 260ms ease-out;
 }
-.hm-path-card:hover {
+.hm-path-card::before {
+  content: ""; position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px;
+  background: var(--accent); opacity: 0; transition: opacity 200ms ease-out;
+}
+.hm-path-card:hover, .hm-path-card:focus-visible {
   border-color: rgba(246,243,236,0.36); background: rgba(23,21,26,0.6);
   box-shadow: 0 24px 60px rgba(0,0,0,0.35);
 }
+.hm-path-card:hover::before, .hm-path-card:focus-visible::before { opacity: 1; }
 .hm-path-card:focus-visible {
   outline: 2px solid rgba(246,243,236,0.75); outline-offset: 3px;
-  border-color: rgba(246,243,236,0.36);
 }
 .hm-path-idx {
   font-family: var(--f-mono); font-weight: 600; font-size: 10px;
