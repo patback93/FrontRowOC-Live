@@ -14,11 +14,12 @@ const LOGOS: Array<{ file: string; alt: string; h: number }> = [
 // partner wordmarks spaced across the right, on the deeper ink plate.
 export default function CreditBanner() {
   return (
-    <section className="hm-credits" aria-label="Proof of stage">
+    <section className="hm-credits" aria-label="Proof under pressure">
       <div className="hm-credits-intro">
-        <div className="hm-credits-kicker">Proof of stage</div>
+        <div className="hm-credits-kicker">Proof under pressure</div>
         <p className="hm-credits-line">
-          Trusted across concerts, livestreams, label events, and national stages.
+          Trusted across concerts, livestreams, label events, benefit programs, and national
+          stages.
         </p>
       </div>
       <div className="hm-credits-logos">
