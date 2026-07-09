@@ -274,7 +274,7 @@ export default function Projects() {
   return (
     <section className="hm-projects" id="projects">
       <div className="hm-section-head">
-        <Slate idx="00" name="Selected work" sub="Presented with context" />
+        <Slate idx="01" name="Selected work" sub="Presented with context" />
       </div>
 
       <div className="hm-proj-title">

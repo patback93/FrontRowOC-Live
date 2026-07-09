@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import Lockup from "./Lockup";
 
 // order + indices mirror the page's running order (Selected work leads,
-// just under the proof strip)
+// just under the logo bar; Plan is the compact process section)
 const LINKS = [
-  { idx: "00", href: "#projects", label: "Selected work" },
-  { idx: "01", href: "#who", label: "Who we are" },
+  { idx: "01", href: "#projects", label: "Selected work" },
   { idx: "02", href: "#services", label: "What we do" },
-  { idx: "03", href: "#book", label: "Contact" },
+  { idx: "03", href: "#plan", label: "Plan" },
+  { idx: "04", href: "#book", label: "Availability" },
 ];
 
 export default function HomeNav() {

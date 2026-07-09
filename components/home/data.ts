@@ -29,6 +29,8 @@ export const PROJECT_ITEMS: ProjectItem[] = [
 export type ServiceRole = { name: string; desc: string };
 export type Service = {
   title: string;
+  href: string; // vertical landing page — Corporate is live; the rest are
+  // "#" placeholders, ready to point at their pages as they ship
   indent: number; // staggered poster-line indent (px, desktop)
   note: string; // mono annotation chip
   idealFor: string; // "Ideal for" row in the open panel
@@ -39,6 +41,7 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     title: "Concert Films & Livestreams",
+    href: "#",
     indent: 0,
     note: "01 — Camera plan, live cut, final delivery",
     idealFor: "Arena shows, artist specials, livestream premieres, tour captures.",
@@ -46,6 +49,7 @@ export const SERVICES: Service[] = [
   },
   {
     title: "Touring IMAG & Festival Screens",
+    href: "#",
     indent: 120,
     note: "02 — Big-screen picture that travels",
     idealFor: "Headline sets, festival stages, touring packages, venue screens.",
@@ -53,6 +57,7 @@ export const SERVICES: Service[] = [
   },
   {
     title: "Corporate & Brand Broadcasts",
+    href: "/corporate-event-video-production-orange-county",
     indent: 40,
     note: "03 — Premium picture for high-visibility rooms",
     idealFor: "Launches, executive events, conferences, brand moments.",
@@ -60,6 +65,7 @@ export const SERVICES: Service[] = [
   },
   {
     title: "Galas & Fundraiser Programs",
+    href: "#",
     indent: 180,
     note: "04 — Quiet, polished, donor-facing",
     idealFor: "Donor rooms, honoree programs, live auctions, hybrid galas.",
@@ -67,6 +73,7 @@ export const SERVICES: Service[] = [
   },
   {
     title: "Technical Direction & Crew",
+    href: "#",
     indent: 70,
     note: "05 — Senior operators, engineers, and support",
     idealFor: "Production teams, AV partners, festivals, shows needing senior video support.",
@@ -84,14 +91,6 @@ export const SERVICES: Service[] = [
   },
 ];
 
-export const EVENT_TYPES = [
-  "Concert film / livestream",
-  "Festival & touring IMAG",
-  "Corporate & brand event",
-  "Gala / fundraiser",
-  "Crew & technical resources",
-];
-
 // Hero pillars (Cinema / Live / Archive)
 export type Pillar = { name: string; note: string };
 export const PILLARS: Pillar[] = [
@@ -100,26 +99,12 @@ export const PILLARS: Pillar[] = [
   { name: "Archive", note: "Final deliverables" },
 ];
 
-// 00b — the system behind the picture
-export type SystemPhase = {
-  idx: string;
-  name: string;
-  body: string;
-  chips: string[];
-  hot?: boolean; // the "during the show" card carries the red dash + lift
-};
-export const SYSTEM_PHASES: SystemPhase[] = [
-  { idx: "01", name: "Before doors", body: "Camera plot, crew shape, venue realities, show flow, and deliverables.", chips: ["Camera plot", "Delivery"] },
-  { idx: "02", name: "During the show", body: "A director-led live cut, comms, monitoring, stage integration, and room/stream awareness.", chips: ["Program", "Records"], hot: true },
-  { idx: "03", name: "After the room clears", body: "Program cut, ISO records, audio paths, recap, archive, and release-ready assets.", chips: ["Records", "Delivery"] },
-];
-
-export type Standard = { tag: string; mark: "dot" | "dash"; title: string; body: string };
-export const STANDARDS: Standard[] = [
-  { tag: "REC / ISO", mark: "dot", title: "Redundant records", body: "Program, ISOs, and post-ready paths when the show requires it." },
-  { tag: "COMMS", mark: "dash", title: "Comms-first crew", body: "Director, operators, engineering, and stage aligned before doors." },
-  { tag: "ROOM + STREAM", mark: "dot", title: "Room + stream aware", body: "IMAG, livestream, archive, and recap treated as separate outputs." },
-  { tag: "DIR / TD", mark: "dash", title: "Senior technical leadership", body: "A calm video department that knows how to work with AV, stage, and talent." },
+// 03 — video plan (compact process assertion: before / show day / after)
+export type PlanPhase = { idx: string; label: string; copy: string };
+export const PLAN_PHASES: PlanPhase[] = [
+  { idx: "01", label: "Before", copy: "We map the video plan before load-in." },
+  { idx: "02", label: "Show day", copy: "A calm video department plugs in." },
+  { idx: "03", label: "After", copy: "The final assets are already defined." },
 ];
 
 // 03 — what happens next strip

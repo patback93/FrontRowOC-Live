@@ -36,15 +36,18 @@ test.beforeEach(() => {
 test("sections render in running order with slates", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Front Row Broadcast/);
-  for (const id of ["top", "paths", "who", "system", "services", "projects", "book"]) {
+  for (const id of ["top", "projects", "services", "plan", "book"]) {
     await expect(page.locator(`#${id}`)).toHaveCount(1);
   }
+  // deleted sections are fully gone
+  await expect(page.locator("#who, #paths, #system")).toHaveCount(0);
   await expect(page.locator(".hm-slate")).toHaveCount(4);
-  // Selected work leads the content (just under the proof strip); slate
-  // numbers ascend in scroll order
+  // Selected work leads the content (just under the logo bar); slate
+  // numbers ascend 01–04 in scroll order
   const sections = await page.locator("section[id]").evaluateAll((els) => els.map((e) => e.id));
-  expect(sections.indexOf("projects")).toBeLessThan(sections.indexOf("who"));
-  expect(await page.locator(".hm-slate-idx").allTextContents()).toEqual(["00", "01", "02", "03"]);
+  expect(sections.indexOf("projects")).toBeLessThan(sections.indexOf("services"));
+  expect(sections.indexOf("services")).toBeLessThan(sections.indexOf("plan"));
+  expect(await page.locator(".hm-slate-idx").allTextContents()).toEqual(["01", "02", "03", "04"]);
   // hero headline + proof strip with all seven partner logos
   await expect(page.locator(".hm-hero-headline")).toContainText("broadcast backbone");
   await expect(page.locator(".hm-credit-logo")).toHaveCount(7);
@@ -67,47 +70,15 @@ test("hero reel card opens the modal; Esc closes it", async ({ page }) => {
   await expect(page.locator(".hm-reel-card")).toBeFocused();
 });
 
-test("buyer paths: three routed cards, cover row, keyboard reachable", async ({ page }) => {
+test("video plan: compact three-phase assertion (no cards)", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator(".hm-paths-title")).toContainText("cannot miss");
-  const cards = page.locator(".hm-path-card");
-  await expect(cards).toHaveCount(3);
-  await expect(cards.nth(0)).toHaveAttribute("href", "/corporate-event-video-production-orange-county");
-  await expect(cards.nth(0)).toContainText("Corporate & Brand Events");
-  await expect(cards.nth(1)).toHaveAttribute("href", "/gala-fundraiser-video-production");
-  await expect(cards.nth(1)).toContainText("Galas & Fundraisers");
-  await expect(cards.nth(2)).toHaveAttribute("href", "/event-agency-video-production-partner");
-  await expect(cards.nth(2)).toContainText("Agency / AV Partnerships");
-  // cards rest identical; the red accent edge appears only on the
-  // hovered or focused card (keyboard parity with hover)
-  const edge = (i) => cards.nth(i).evaluate((el) => getComputedStyle(el, "::before").opacity);
-  expect(await edge(0)).toBe("0");
-  expect(await edge(1)).toBe("0");
-  await cards.nth(1).hover();
-  await page.waitForTimeout(300);
-  expect(await edge(1)).toBe("1");
-  expect(await edge(0)).toBe("0");
-  await expect(page.locator(".hm-cover")).toHaveCount(4);
-  await expect(page.locator(".hm-cover-label").first()).toHaveText("For the room");
-  // cards are plain links — focusable in order
-  await cards.nth(0).focus();
-  await page.keyboard.press("Tab");
-  await expect(cards.nth(1)).toBeFocused();
-});
-
-test("who-we-are statement reveals on scroll", async ({ page }) => {
-  await page.goto("/");
-  await page.locator("#who").scrollIntoViewIfNeeded();
-  await expect(page.locator(".hm-l2")).toHaveText("High-stakes");
-  await expect(page.locator(".hm-l2")).toHaveCSS("opacity", "1", { timeout: 10_000 });
-});
-
-test("system section: three phases and four standards", async ({ page }) => {
-  await page.goto("/");
-  await page.locator("#system").scrollIntoViewIfNeeded();
-  await expect(page.locator(".hm-sys-card")).toHaveCount(3);
-  await expect(page.locator(".hm-sys-card.hm-hot .hm-sys-card-idx")).toContainText("During the show");
-  await expect(page.locator(".hm-std-cell")).toHaveCount(4);
+  await page.locator("#plan").scrollIntoViewIfNeeded();
+  await expect(page.locator(".hm-plan-title")).toContainText("already built");
+  const rows = page.locator(".hm-plan-row");
+  await expect(rows).toHaveCount(3);
+  await expect(rows.nth(0)).toContainText("We map the video plan before load-in.");
+  await expect(rows.nth(1)).toContainText("A calm video department plugs in.");
+  await expect(rows.nth(2)).toContainText("The final assets are already defined.");
 });
 
 test("services accordion: five items, first open, ideal-for row, toggling works", async ({ page }) => {
@@ -136,6 +107,14 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
   await first.focus();
   await page.keyboard.press("Enter");
   await expect(first).toHaveAttribute("aria-expanded", "true");
+
+  // only Corporate & Brand Broadcasts exposes a live vertical-page link
+  await page.locator(".hm-svc-head").nth(2).click();
+  await expect(page.locator(".hm-svc-explore")).toHaveCount(1);
+  await expect(page.locator(".hm-svc-explore")).toHaveAttribute(
+    "href",
+    "/corporate-event-video-production-orange-county",
+  );
 });
 
 test("selected-work concourse initializes with seven posters and live plate", async ({ page }) => {
@@ -172,9 +151,9 @@ test("availability request: required-field validation blocks empty submit", asyn
   expect(await page.locator(".hm-next-idx").first().textContent()).toBe("01");
   await page.locator(".hm-btn-primary").click();
   await expect(page.locator(".hm-sheet-error")).toContainText(
-    "Name, email, and event date are required.",
+    "Email and event date are required.",
   );
-  await expect(page.locator("#ct-name")).toHaveAttribute("aria-invalid", "true");
+  await expect(page.locator("#ct-email")).toHaveAttribute("aria-invalid", "true");
   expect(hits.length).toBe(0);
 });
 
@@ -185,7 +164,6 @@ test("availability request happy path: webhook receives payload, confirmation sh
   await page.locator("#ct-email").fill("jane@ocevents.com");
   await page.locator("#ct-date").fill("10/03/2026");
   await page.locator("#ct-venue").fill("Honda Center, Anaheim");
-  await page.locator(".hm-et-chip").nth(3).click(); // Gala / fundraiser
   await page.locator("#ct-notes").fill("Two IMAG screens, live giving segment.");
   await page.locator(".hm-btn-primary").click();
 
@@ -198,7 +176,6 @@ test("availability request happy path: webhook receives payload, confirmation sh
   expect(b.email).toBe("jane@ocevents.com");
   expect(b.date).toBe("10/03/2026");
   expect(b.venue).toBe("Honda Center, Anaheim");
-  expect(b.type).toBe("Gala / fundraiser");
   expect(b.notes).toBe("Two IMAG screens, live giving segment.");
   expect(b.page).toBe("home");
   expect(b).not.toHaveProperty("company");

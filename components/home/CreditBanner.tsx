@@ -10,16 +10,18 @@ const LOGOS: Array<{ file: string; alt: string; h: number }> = [
   { file: "blizzard", alt: "Blizzard Entertainment", h: 26 },
 ];
 
-// Proof strip — red mono kicker + trust line on the left, the seven
-// partner wordmarks spaced across the right, on the deeper ink plate.
+// Logo bar — LIVE-EVENT DISCIPLINE eyebrow + positioning caption (the
+// salvaged Who-We-Are paragraph) on the left, the seven partner
+// wordmarks across the right, on the deeper ink plate.
 export default function CreditBanner() {
   return (
-    <section className="hm-credits" aria-label="Proof under pressure">
+    <section className="hm-credits" aria-label="Live-event discipline">
       <div className="hm-credits-intro">
-        <div className="hm-credits-kicker">Proof under pressure</div>
+        <div className="hm-credits-kicker">Live-event discipline</div>
         <p className="hm-credits-line">
-          Trusted across concerts, livestreams, label events, benefit programs, and national
-          stages.
+          Built from live environments where the video department cannot miss. We build
+          cinematic coverage systems for events that only happen once — pairing cinema cameras,
+          live switching, comms, records, and delivery into one calm show-day workflow.
         </p>
       </div>
       <div className="hm-credits-logos">

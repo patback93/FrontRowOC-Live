@@ -33,9 +33,9 @@ export default function HomeFooter() {
       </div>
       <nav className="hm-footer-links" aria-label="Footer">
         <span className="hm-fl-head">Quick links</span>
-        <a href="#who">Who we are</a>
-        <a href="#services">What we do</a>
         <a href="#projects">Selected work</a>
+        <a href="#services">What we do</a>
+        <a href="#plan">Plan</a>
         <a href="#book">Contact</a>
       </nav>
     </footer>

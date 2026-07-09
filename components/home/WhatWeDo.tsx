@@ -143,6 +143,13 @@ export default function WhatWeDo() {
                       <span className="hm-r-desc">{r.desc}</span>
                     </div>
                   ))}
+                  {/* vertical-page link — renders once a service has a real
+                      href (Corporate is live; the rest stay "#" until built) */}
+                  {d.href !== "#" && (
+                    <a className="hm-svc-explore" href={d.href}>
+                      Explore {d.title} <span aria-hidden="true">→</span>
+                    </a>
+                  )}
                 </div>
               )}
             </div>

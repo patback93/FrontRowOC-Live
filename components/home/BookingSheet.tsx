@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import Slate from "./Slate";
-import { EVENT_TYPES, NEXT_STEPS } from "./data";
+import { NEXT_STEPS } from "./data";
 
-// 03 Contact — the availability request. POSTs to /api/booking, which
-// relays to the same Apps Script webhook as the /galas hold form (see
-// APPS-SCRIPT.md) and lands in hello@frontrowoc.com. Essentials only
-// per the design ("Send the essentials"): name, email, date, venue,
-// event type, notes. Mirrors the hold form's honeypot ("company") and
-// fail-soft error copy.
+// 04 Check availability — the availability request. POSTs to
+// /api/booking, which relays to the same Apps Script webhook as the
+// /galas hold form (see APPS-SCRIPT.md) and lands in
+// hello@frontrowoc.com. Essentials only: email + event date required;
+// name, venue, and the open "about the event" note optional. Mirrors
+// the hold form's honeypot ("company") and fail-soft error copy.
 type Fields = {
   name: string;
   email: string;
@@ -32,7 +32,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function BookingSheet() {
   const [f, setF] = useState<Fields>(EMPTY);
-  const [type, setType] = useState(-1);
   const [invalid, setInvalid] = useState<Set<string>>(new Set());
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
@@ -54,12 +53,11 @@ export default function BookingSheet() {
     setError("");
 
     const bad = new Set<string>();
-    if (!f.name.trim()) bad.add("name");
     if (!f.email.trim() || !EMAIL_RE.test(f.email.trim())) bad.add("email");
     if (!f.date.trim()) bad.add("date");
     if (bad.size) {
       setInvalid(bad);
-      setError("Name, email, and event date are required.");
+      setError("Email and event date are required.");
       return;
     }
 
@@ -73,7 +71,6 @@ export default function BookingSheet() {
           email: f.email.trim(),
           date: f.date.trim(),
           venue: f.venue.trim(),
-          type: type >= 0 ? EVENT_TYPES[type] : "",
           notes: f.notes.trim(),
           company: f.company, // honeypot passthrough
         }),
@@ -99,7 +96,6 @@ export default function BookingSheet() {
   const reset = (e: React.MouseEvent) => {
     e.preventDefault();
     setF(EMPTY);
-    setType(-1);
     setSent(false);
     setError("");
   };
@@ -109,7 +105,7 @@ export default function BookingSheet() {
   return (
     <section className="hm-book" id="book">
       <div className="hm-section-head">
-        <Slate idx="03" name="Contact us" sub="Dates, availability, and holds" />
+        <Slate idx="04" name="Check availability" sub="Dates, availability, and holds" />
       </div>
 
       <div className="hm-book-title">
@@ -145,10 +141,6 @@ export default function BookingSheet() {
             </div>
             <div className="hm-sheet-grid">
               <div className="hm-field">
-                <label htmlFor="ct-name">Name *</label>
-                <input id="ct-name" type="text" placeholder="Your name" value={f.name} onChange={set("name")} className={cls("name")} aria-required="true" aria-invalid={invalid.has("name") || undefined} />
-              </div>
-              <div className="hm-field">
                 <label htmlFor="ct-email">Email *</label>
                 <input id="ct-email" type="email" placeholder="you@org.com" value={f.email} onChange={set("email")} className={cls("email")} aria-required="true" aria-invalid={invalid.has("email") || undefined} />
               </div>
@@ -157,33 +149,21 @@ export default function BookingSheet() {
                 <input id="ct-date" type="text" className={`hm-mono-input${invalid.has("date") ? " hm-invalid" : ""}`} placeholder="MM/DD/YYYY" value={f.date} onChange={set("date")} aria-required="true" aria-invalid={invalid.has("date") || undefined} />
               </div>
               <div className="hm-field">
-                <label htmlFor="ct-venue">Venue / City</label>
+                <label htmlFor="ct-name">Name</label>
+                <input id="ct-name" type="text" placeholder="Your name" value={f.name} onChange={set("name")} />
+              </div>
+              <div className="hm-field">
+                <label htmlFor="ct-venue">Venue or city</label>
                 <input id="ct-venue" type="text" placeholder="Venue, city" value={f.venue} onChange={set("venue")} />
               </div>
             </div>
 
-            <div className="hm-event-types">
-              <div className="hm-et-label">Event type</div>
-              <div className="hm-et-chips">
-                {EVENT_TYPES.map((label, i) => (
-                  <button
-                    key={label}
-                    type="button"
-                    className={`hm-et-chip${type === i ? " hm-sel" : ""}`}
-                    onClick={() => setType(type === i ? -1 : i)}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="hm-field hm-notes">
-              <label htmlFor="ct-notes">Notes / what are we filming?</label>
+              <label htmlFor="ct-notes">Tell us about the event</label>
               <textarea
                 id="ct-notes"
                 rows={4}
-                placeholder="Audience size, venue, screens in the room, livestream needs, deliverables — whatever you have so far."
+                placeholder="Arena show, artist special, gala, or corporate broadcast — date, venue, audience, and what you need delivered."
                 value={f.notes}
                 onChange={set("notes")}
               />
@@ -205,10 +185,12 @@ export default function BookingSheet() {
               <button type="submit" className="hm-btn-primary" disabled={sending}>
                 {sending ? "Sending…" : "Check availability"}
               </button>
-              <span className="hm-req-note">
-                No hard sell. Just availability, scope, and the right next step.
-              </span>
             </div>
+            <p className="hm-book-escape">
+              Prefer to talk it through?{" "}
+              {/* TODO(cal): swap "#" for the Cal.com 15-min booking link */}
+              <a href="#">Grab 15 minutes</a>.
+            </p>
             {error && (
               <p className="hm-sheet-error" role="alert">
                 {error}
