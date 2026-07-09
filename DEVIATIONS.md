@@ -123,6 +123,13 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
 
 ## Deployment notes (site-wide)
 
+- TODO(routes): the homepage buyer-path cards (components/home/HomePaths.tsx)
+  link to three landing pages that do not exist yet and currently 404:
+  `/corporate-event-video-production-orange-county`,
+  `/gala-fundraiser-video-production`,
+  `/event-agency-video-production-partner`. Create each as
+  `app/<route>/page.tsx` when the landing-page copy is ready.
+
 - TODO(deploy): Owner prefers **www**. All canonical/OG/JSON-LD URLs point at
   `https://www.frontrowoc.com` (app/layout.tsx metadataBase, app/page.tsx,
   app/galas/page.tsx). In Vercel's domain settings, add both domains and set

@@ -36,7 +36,7 @@ test.beforeEach(() => {
 test("sections render in running order with slates", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Front Row Broadcast/);
-  for (const id of ["top", "who", "system", "services", "projects", "book"]) {
+  for (const id of ["top", "paths", "who", "system", "services", "projects", "book"]) {
     await expect(page.locator(`#${id}`)).toHaveCount(1);
   }
   await expect(page.locator(".hm-slate")).toHaveCount(4);
@@ -60,6 +60,25 @@ test("hero reel card opens the modal; Esc closes it", async ({ page }) => {
   await expect(page.locator(".hm-modal")).toHaveCount(0);
   // focus returns to the reel card that opened it
   await expect(page.locator(".hm-reel-card")).toBeFocused();
+});
+
+test("buyer paths: three routed cards, cover row, keyboard reachable", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".hm-paths-title")).toContainText("cannot miss");
+  const cards = page.locator(".hm-path-card");
+  await expect(cards).toHaveCount(3);
+  await expect(cards.nth(0)).toHaveAttribute("href", "/corporate-event-video-production-orange-county");
+  await expect(cards.nth(0)).toContainText("Plan a Corporate Broadcast");
+  await expect(cards.nth(1)).toHaveAttribute("href", "/gala-fundraiser-video-production");
+  await expect(cards.nth(1)).toContainText("Film a Gala / Fundraiser");
+  await expect(cards.nth(2)).toHaveAttribute("href", "/event-agency-video-production-partner");
+  await expect(cards.nth(2)).toContainText("Partner With Us on a Live Event");
+  await expect(page.locator(".hm-cover")).toHaveCount(4);
+  await expect(page.locator(".hm-cover-label").first()).toHaveText("For the room");
+  // cards are plain links — focusable in order
+  await cards.nth(0).focus();
+  await page.keyboard.press("Tab");
+  await expect(cards.nth(1)).toBeFocused();
 });
 
 test("who-we-are statement reveals on scroll", async ({ page }) => {
@@ -123,9 +142,12 @@ test("selected-work concourse initializes with seven posters and live plate", as
 
   // the context-plate CTA is a real link — hover raises the plate and
   // clicking navigates to #book (regression: the stage's pointer capture
-  // used to swallow the click)
+  // used to swallow the click). Re-click the tick first: the wall is
+  // already centered on CH 07, so nothing moves, but it re-arms the 6s
+  // idle-drift timer and gives the click a stable window.
+  await page.locator("[data-frbp-tick='6']").click();
   await page.locator(".hm-poster-frame").nth(6).hover();
-  await page.locator(".hm-case-cta").nth(6).click();
+  await page.locator(".hm-case-cta").nth(6).click({ timeout: 5_000 });
   await expect(page).toHaveURL(/#book$/);
 });
 

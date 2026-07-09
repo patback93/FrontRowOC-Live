@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./home.css";
 import HomeNav from "@/components/home/HomeNav";
 import HomeHero from "@/components/home/HomeHero";
+import HomePaths from "@/components/home/HomePaths";
 import CreditBanner from "@/components/home/CreditBanner";
 import WhoWeAre from "@/components/home/WhoWeAre";
 import HomeSystem from "@/components/home/HomeSystem";
@@ -72,6 +73,7 @@ export default function Home() {
 
       <main>
         <HomeHero />
+        <HomePaths />
         <CreditBanner />
         <WhoWeAre />
         <HomeSystem />
