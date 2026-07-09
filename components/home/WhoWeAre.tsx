@@ -165,7 +165,7 @@ export default function WhoWeAre() {
       </div>
 
       <div className="hm-who-head" data-enter="">
-        <Slate idx="00" name="Who we are" sub="The crew behind the picture" />
+        <Slate idx="01" name="Who we are" sub="The crew behind the picture" />
         <div className="hm-rec">
           <span className="hm-rec-dot" />
           <span className="hm-rec-label">REC</span>

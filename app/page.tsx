@@ -75,10 +75,10 @@ export default function Home() {
         <HomeHero />
         <HomePaths />
         <CreditBanner />
+        <Projects />
         <WhoWeAre />
         <HomeSystem />
         <WhatWeDo />
-        <Projects />
         <BookingSheet />
       </main>
 

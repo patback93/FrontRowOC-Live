@@ -507,7 +507,10 @@ body { margin: 0; padding: 0; background: #111013; }
 /* ============================================================
    00 WHO WE ARE
    ============================================================ */
-.hm-who { position: relative; padding: 64px 0 0; overflow: hidden; }
+/* border-top: Selected Work now sits above Who (Who used to follow the
+   credits strip's bottom border); it owns the separator to the section
+   above it */
+.hm-who { position: relative; padding: 64px 0 0; border-top: 1px solid var(--line); overflow: hidden; }
 
 .hm-who-rail {
   position: absolute; left: 30px; top: 96px; bottom: 96px;
@@ -729,7 +732,9 @@ body { margin: 0; padding: 0; background: #111013; }
 /* ============================================================
    02 SELECTED WORK — concourse
    ============================================================ */
-.hm-projects { position: relative; padding: 64px 0 0; border-top: 1px solid var(--line); overflow: hidden; }
+/* no border-top: Selected Work now sits directly under the credits
+   strip, whose bottom border already draws this seam */
+.hm-projects { position: relative; padding: 64px 0 0; overflow: hidden; }
 .hm-proj-title {
   padding: 30px var(--padR) 0 var(--padL);
   font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: -0.012em;

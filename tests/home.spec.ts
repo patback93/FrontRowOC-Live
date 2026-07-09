@@ -40,6 +40,11 @@ test("sections render in running order with slates", async ({ page }) => {
     await expect(page.locator(`#${id}`)).toHaveCount(1);
   }
   await expect(page.locator(".hm-slate")).toHaveCount(4);
+  // Selected work leads the content (just under the proof strip); slate
+  // numbers ascend in scroll order
+  const sections = await page.locator("section[id]").evaluateAll((els) => els.map((e) => e.id));
+  expect(sections.indexOf("projects")).toBeLessThan(sections.indexOf("who"));
+  expect(await page.locator(".hm-slate-idx").allTextContents()).toEqual(["00", "01", "02", "03"]);
   // hero headline + proof strip with all seven partner logos
   await expect(page.locator(".hm-hero-headline")).toContainText("broadcast backbone");
   await expect(page.locator(".hm-credit-logo")).toHaveCount(7);

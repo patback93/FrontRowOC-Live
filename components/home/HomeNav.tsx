@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Lockup from "./Lockup";
 
+// order + indices mirror the page's running order (Selected work leads,
+// just under the proof strip)
 const LINKS = [
-  { idx: "00", href: "#who", label: "Who we are" },
-  { idx: "01", href: "#services", label: "What we do" },
-  { idx: "02", href: "#projects", label: "Selected work" },
+  { idx: "00", href: "#projects", label: "Selected work" },
+  { idx: "01", href: "#who", label: "Who we are" },
+  { idx: "02", href: "#services", label: "What we do" },
   { idx: "03", href: "#book", label: "Contact" },
 ];
 
