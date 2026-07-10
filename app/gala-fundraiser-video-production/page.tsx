@@ -16,6 +16,12 @@ import GfAvailability from "@/components/gf/GfAvailability";
 
 export const metadata: Metadata = pageMetadata("gala");
 
+// Talk-path CTAs (hero ghost, mid-strip, "Grab 15 minutes") route to the
+// calendar once NEXT_PUBLIC_CAL_URL is set on Vercel; until then they fall
+// back so nothing dead-ends (form for the strip/ghost, email for Grab-15).
+const CAL_URL = process.env.NEXT_PUBLIC_CAL_URL || "";
+const TALK_HREF = CAL_URL || "#check-availability";
+
 const PROGRAM_NIGHT = [
   "Room + remote audience",
   "Speaker / honoree moments",
@@ -40,7 +46,7 @@ const USE_CASES = [
   "Honoree Programs",
   "Fundraising Dinners",
   "Donor Events",
-  "Live Auctions / Fund-a-Need",
+  "Auctions / Fund-a-Need",
   "Hybrid Fundraisers",
   "Award Programs",
 ];
@@ -143,7 +149,7 @@ export default function GalaFundraiserPage() {
               <a href="#check-availability" className="gf-cta-solid">
                 Check Your Date
               </a>
-              <a href="#check-availability" className="gf-cta-ghost">
+              <a href={TALK_HREF} className="gf-cta-ghost">
                 Talk Through the Video Plan
               </a>
             </div>
@@ -170,9 +176,12 @@ export default function GalaFundraiserPage() {
         <div className="gf-proof-intro">
           <div className="gf-proof-kicker">Live-event proof</div>
           <div className="gf-proof-line">
-            Built from live environments where timing, emotion, signal flow, crew communication,
-            and delivery have to work the first time.
+            Built from live environments where timing, signal flow, crew communication, and
+            delivery have to work the first time.
           </div>
+          <Link className="gf-proof-link" href="/#selected-work">
+            View selected work <span aria-hidden="true">→</span>
+          </Link>
         </div>
         <div className="gf-proof-logos" aria-label="Relevant live-event client and platform logos">
           {LOGOS.map((l) => (
@@ -252,7 +261,7 @@ export default function GalaFundraiserPage() {
                 coverage makes sense.
               </p>
             </div>
-            <a href="#check-availability" className="gf-strip-cta">
+            <a href={TALK_HREF} className="gf-strip-cta">
               Talk Through the Video Plan
             </a>
           </div>

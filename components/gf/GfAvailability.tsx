@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 
+// calendar link (see page-level TALK_HREF note); email is the honest
+// interim path for "grab 15 minutes" until the calendar exists
+const CAL_URL = process.env.NEXT_PUBLIC_CAL_URL || "";
+const GRAB_HREF = CAL_URL || "mailto:hello@frontrowoc.com";
+
 // 04 Check availability — the gala availability request. The design
 // export shipped this visual-only; here it POSTs to /api/booking
 // (page:"gala") → the same Apps Script webhook as the other forms
@@ -114,7 +119,7 @@ export default function GfAvailability() {
               />
             </div>
             <div className="gf-field">
-              <label htmlFor="gf-date">Event date *</label>
+              <label htmlFor="gf-date">Event Date *</label>
               <input
                 id="gf-date"
                 type="text"
@@ -127,7 +132,9 @@ export default function GfAvailability() {
               />
             </div>
             <div className="gf-field">
-              <label htmlFor="gf-name">Name</label>
+              <label htmlFor="gf-name">
+                Name <span className="gf-opt">— Optional</span>
+              </label>
               <input
                 id="gf-name"
                 type="text"
@@ -138,7 +145,9 @@ export default function GfAvailability() {
               />
             </div>
             <div className="gf-field">
-              <label htmlFor="gf-venue">Venue or City</label>
+              <label htmlFor="gf-venue">
+                Venue or City <span className="gf-opt">— Optional</span>
+              </label>
               <input
                 id="gf-venue"
                 type="text"
@@ -149,7 +158,9 @@ export default function GfAvailability() {
             </div>
           </div>
           <div className="gf-field cp-notes">
-            <label htmlFor="gf-notes">Tell us about the event</label>
+            <label htmlFor="gf-notes">
+              Tell Us About the Event <span className="gf-opt">— Optional</span>
+            </label>
             <textarea
               id="gf-notes"
               rows={5}
@@ -177,8 +188,10 @@ export default function GfAvailability() {
             </button>
             <div className="gf-booking-line">
               Prefer to talk it through?{" "}
-              {/* TODO(cal): swap "#" for the real Cal.com/Calendly booking link */}
-              <a href="#">Grab 15 minutes.</a>
+              {/* routes to the calendar once NEXT_PUBLIC_CAL_URL is set */}
+              <a href={GRAB_HREF}>
+                Grab 15 minutes with the production lead <span aria-hidden="true">→</span>
+              </a>
             </div>
             <div className="gf-form-note">
               You&rsquo;ll talk directly with the production lead before anything is quoted.

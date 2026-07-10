@@ -127,9 +127,12 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
   exports; linked from the What-We-Do rows):
   `/corporate-event-video-production-orange-county` and
   `/gala-fundraiser-video-production`.
-- TODO(cal): all three availability forms ("Grab 15 minutes" on /, the
-  corporate page, and the gala page) hold `href="#"` until the Cal.com/
-  Calendly link exists.
+- TODO(cal): set `NEXT_PUBLIC_CAL_URL` on Vercel when the Cal.com/Calendly
+  link exists. The gala page already routes its talk-path CTAs through it
+  ("Talk Through the Video Plan" falls back to the form, "Grab 15 minutes
+  with the production lead" falls back to mailto:hello@frontrowoc.com until
+  the env var is set). The homepage and corporate "Grab 15 minutes" links
+  still hold `href="#"` — wire them the same way once the URL exists.
 
 - TODO(deploy): Owner prefers **www**. All canonical/OG/JSON-LD URLs point at
   `https://www.frontrowoc.com` (app/layout.tsx metadataBase, app/page.tsx,

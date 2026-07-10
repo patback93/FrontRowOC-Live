@@ -44,6 +44,9 @@ export default function GfNav() {
                 {l.label}
               </a>
             ))}
+            <a href="#check-availability" className="gf-nav-cta">
+              Check Your Date
+            </a>
           </div>
           <button
             type="button"
