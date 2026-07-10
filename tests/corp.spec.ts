@@ -69,6 +69,11 @@ test("corporate page renders all sections with resolving anchors", async ({ page
   await expect(sw).toContainText("View selected work");
   // hero CTA still jumps to the availability form
   await expect(page.locator(".cp-cta-solid")).toHaveAttribute("href", "#check-availability");
+  // sibling cross-link with descriptive anchor text
+  await expect(page.locator(".cp-xlink a")).toHaveAttribute("href", "/gala-fundraiser-video-production");
+  await expect(page.locator(".cp-xlink a")).toContainText("gala and fundraiser video production");
+  // footer pages nav present
+  await expect(page.locator('.cp-footer-links a[href="/gala-fundraiser-video-production"]')).toHaveCount(1);
 
   // header logo actually lands on the homepage
   await page.locator('.cp-nav a[aria-label="Front Row Broadcast home"]').click();

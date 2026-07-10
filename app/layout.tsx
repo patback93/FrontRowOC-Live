@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { OrgJsonLd } from "@/lib/seo";
 
 // Display depends on Archivo's variable width axis (font-stretch:125%) —
 // the wdth axis is load-bearing; without it the display voice collapses.
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${archivo.variable} ${plexMono.variable}`}>
       <body>
+        <OrgJsonLd />
         {children}
         {/* Analytics only where the Vercel insights script actually exists,
             so local/prod-test runs stay free of 404 console errors. */}

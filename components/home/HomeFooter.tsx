@@ -1,4 +1,6 @@
+import Link from "next/link";
 import Lockup from "./Lockup";
+import { footerNavPages } from "@/lib/seo";
 
 // Footer — bookends the header lockup, socials as logo glyphs,
 // positioning tagline, quick links mirror the section running order.
@@ -37,6 +39,12 @@ export default function HomeFooter() {
         <a href="#services">What we do</a>
         <a href="#plan">Plan</a>
         <a href="#availability">Contact</a>
+        <span className="hm-fl-head hm-fl-gap">Pages</span>
+        {footerNavPages().map((p) => (
+          <Link key={p.href} href={p.href}>
+            {p.label}
+          </Link>
+        ))}
       </nav>
     </footer>
   );

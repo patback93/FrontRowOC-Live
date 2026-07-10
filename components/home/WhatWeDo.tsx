@@ -93,7 +93,7 @@ export default function WhatWeDo() {
                 tabIndex={0}
                 id={`svc-head-${i}`}
                 aria-expanded={isOpen}
-                aria-controls={isOpen ? `svc-panel-${i}` : undefined}
+                aria-controls={`svc-panel-${i}`}
                 aria-label={`${isOpen ? "Collapse" : "Expand"} ${d.title}`}
                 onClick={() => setOpen(isOpen ? -1 : i)}
                 onKeyDown={(e) => {
@@ -113,7 +113,7 @@ export default function WhatWeDo() {
                 </div>
                 <div className="hm-svc-title" style={{ marginLeft: `var(--svc-indent-${i})` }}>
                   <span className="hm-svc-lead">
-                    <span className="hm-hl">{d.title}</span>
+                    <h3 className="hm-hl">{d.title}</h3>
                     {isOpen && <span className="hm-svc-period">.</span>}
                   </span>
                   <span className="hm-svc-marker" aria-hidden="true">
@@ -122,14 +122,16 @@ export default function WhatWeDo() {
                   </span>
                 </div>
               </div>
-              {isOpen && (
-                <div
-                  className="hm-svc-panel"
-                  id={`svc-panel-${i}`}
-                  role="region"
-                  aria-labelledby={`svc-head-${i}`}
-                  style={{ marginLeft: `var(--svc-indent-${i})` }}
-                >
+              {/* always server-rendered — visibility via [hidden], so every
+                  row's content is in the crawlable HTML */}
+              <div
+                className="hm-svc-panel"
+                id={`svc-panel-${i}`}
+                role="region"
+                aria-labelledby={`svc-head-${i}`}
+                hidden={!isOpen}
+                style={{ marginLeft: `var(--svc-indent-${i})` }}
+              >
                   <div className="hm-body">{d.body}</div>
                   <div className="hm-svc-ideal">
                     <span className="hm-i-label">Ideal for</span>
@@ -150,8 +152,7 @@ export default function WhatWeDo() {
                   <a className="hm-svc-explore" href={d.href}>
                     {d.cta} <span aria-hidden="true">→</span>
                   </a>
-                </div>
-              )}
+              </div>
             </div>
           );
         })}

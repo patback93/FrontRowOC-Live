@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import Slate from "./Slate";
 import { PROJECT_ITEMS } from "./data";
-
-/* eslint-disable @next/next/no-img-element -- the concourse drives
-   raw <img> transforms per-frame; next/image wrappers fight the rAF loop */
 
 // 02 Selected work — the poster concourse. Drag to walk the wall
 // (momentum + snap), click a poster or a 35mm contact-strip frame to
@@ -306,7 +304,15 @@ export default function Projects() {
                 style={{ width: it.w, marginLeft: -it.w / 2 }}
               >
                 <div className="hm-poster-frame">
-                  <img src={it.file} alt={`${it.title} poster`} draggable={false} />
+                  <div className="hm-imgfill">
+                    <Image
+                      src={it.file}
+                      alt={`${it.title} ${it.meta.toLowerCase()} poster`}
+                      fill
+                      sizes="540px"
+                      draggable={false}
+                    />
+                  </div>
                   <div className="hm-poster-sheen" />
                   <div className="hm-poster-ch">
                     <span className="hm-poster-tally" data-frbp-tally={it.idx} />
@@ -390,7 +396,15 @@ export default function Projects() {
           {PROJECT_ITEMS.map((it) => (
             <div key={it.idx} className="hm-swipe-card" style={{ width: it.wM }}>
               <div className="hm-swipe-poster">
-                <img src={it.file} alt={`${it.title} poster`} draggable={false} loading="lazy" />
+                <div className="hm-imgfill">
+                  <Image
+                    src={it.file}
+                    alt={`${it.title} ${it.meta.toLowerCase()} poster`}
+                    fill
+                    sizes="300px"
+                    draggable={false}
+                  />
+                </div>
                 <div className="hm-swipe-ch">
                   <span className="hm-d" />
                   <span className="hm-c">{it.meta}</span>

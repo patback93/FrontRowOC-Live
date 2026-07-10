@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata, ServiceJsonLd } from "@/lib/seo";
 import "./gala.css";
 import StickyBar from "@/components/gala/StickyBar";
 import Hero from "@/components/gala/Hero";
@@ -8,66 +9,12 @@ import SignalFlow from "@/components/gala/SignalFlow";
 import HoldForm from "@/components/gala/HoldForm";
 import TelLink from "@/components/gala/TelLink";
 
-export const metadata: Metadata = {
-  title:
-    "Cinematic Broadcast for Galas & Fundraisers | Front Row Broadcast — Orange County",
-  description:
-    "Cinematic broadcast for Orange County galas and fundraisers — live cameras to your ballroom screens during the ask, and a 90-second recap film after.",
-  alternates: { canonical: "https://www.frontrowoc.com/galas" },
-  openGraph: {
-    title:
-      "Cinematic Broadcast for Galas & Fundraisers | Front Row Broadcast — Orange County",
-    description:
-      "Cinematic broadcast for Orange County galas and fundraisers — live cameras to your ballroom screens during the ask, and a 90-second recap film after.",
-    url: "https://www.frontrowoc.com/galas",
-    siteName: "Front Row Broadcast",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/galas/og.png",
-        width: 1200,
-        height: 630,
-        alt: "Front Row Broadcast — cinematic broadcast for galas & fundraisers",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title:
-      "Cinematic Broadcast for Galas & Fundraisers | Front Row Broadcast — Orange County",
-    description:
-      "Cinematic broadcast for Orange County galas and fundraisers — live cameras to your ballroom screens during the ask, and a 90-second recap film after.",
-    images: ["/galas/og.png"],
-  },
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: "Front Row Broadcast",
-  url: "https://www.frontrowoc.com/galas",
-  telephone: "+1-949-236-7573",
-  email: "hello@frontrowoc.com",
-  priceRange: "$4,500-$9,500+",
-  image: "https://www.frontrowoc.com/galas/og.png",
-  areaServed: {
-    "@type": "AdministrativeArea",
-    name: "Orange County, CA",
-  },
-  parentOrganization: {
-    "@type": "Organization",
-    name: "MixOne Cinema",
-  },
-};
+export const metadata: Metadata = pageMetadata("galas");
 
 export default function GalasPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <ServiceJsonLd page="galas" />
 
       <StickyBar />
 

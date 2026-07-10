@@ -51,6 +51,9 @@ test("sections render in running order with slates", async ({ page }) => {
   // hero headline + proof strip with all seven partner logos
   await expect(page.locator(".hm-hero-headline")).toContainText("broadcast backbone");
   await expect(page.locator(".hm-credit-logo")).toHaveCount(7);
+  // footer pages nav lists all live pages with keyword labels
+  await expect(page.locator('.hm-footer-links a[href="/corporate-event-video-production-orange-county"]')).toHaveCount(1);
+  await expect(page.locator('.hm-footer-links a[href="/gala-fundraiser-video-production"]')).toHaveCount(1);
 });
 
 test("hero reel card opens the modal; Esc closes it", async ({ page }) => {
@@ -79,6 +82,11 @@ test("video plan: compact three-phase assertion (no cards)", async ({ page }) =>
   await expect(rows.nth(0)).toContainText("We map the video plan before load-in.");
   await expect(rows.nth(1)).toContainText("A calm video department plugs in.");
   await expect(rows.nth(2)).toContainText("The final assets are already defined.");
+  // internal link: plan → corporate vertical
+  await expect(page.locator(".hm-plan-link")).toHaveAttribute(
+    "href",
+    "/corporate-event-video-production-orange-county",
+  );
 });
 
 test("services accordion: five items, first open, ideal-for row, toggling works", async ({ page }) => {
@@ -86,9 +94,11 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
   await page.locator("#services").scrollIntoViewIfNeeded();
   await expect(page.locator(".hm-svc")).toHaveCount(5);
   await expect(page.locator(".hm-svc.hm-open")).toHaveCount(1);
-  await expect(page.locator(".hm-svc-panel")).toBeVisible();
+  await expect(page.locator(".hm-svc.hm-open .hm-svc-panel")).toBeVisible();
   // first row is Corporate & Brand Broadcasts (owner-directed order)
-  await expect(page.locator(".hm-svc-ideal .hm-i-desc")).toContainText("Launches");
+  await expect(page.locator(".hm-svc.hm-open .hm-i-desc")).toContainText("Launches");
+  // SSR: closed rows' content is in the crawlable HTML (Technical row is closed)
+  expect(await page.content()).toContain("Bring in a focused broadcast team");
 
   // accordion a11y: expanded state, labels, wired panel, hidden marker
   const first = page.locator(".hm-svc-head").first();
@@ -100,7 +110,7 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
 
   // open Technical Direction & Crew — the crew sheet lists eight roles
   await page.locator(".hm-svc-head").nth(4).click();
-  await expect(page.locator(".hm-svc-role")).toHaveCount(8);
+  await expect(page.locator(".hm-svc.hm-open .hm-svc-role")).toHaveCount(8);
   await expect(first).toHaveAttribute("aria-expanded", "false");
   await expect(first).toHaveAttribute("aria-label", /^Expand Corporate/);
 
@@ -111,21 +121,22 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
 
   // every row has a per-row CTA; the open panel shows exactly one.
   // Corporate (row 0, re-opened above) links to its vertical page.
-  await expect(page.locator(".hm-svc-explore")).toHaveCount(1);
-  await expect(page.locator(".hm-svc-explore")).toContainText("Explore Corporate & Brand Broadcasts");
-  await expect(page.locator(".hm-svc-explore")).toHaveAttribute(
+  const openExplore = page.locator(".hm-svc.hm-open .hm-svc-explore");
+  await expect(openExplore).toHaveCount(1);
+  await expect(openExplore).toContainText("Explore Corporate & Brand Broadcasts");
+  await expect(openExplore).toHaveAttribute(
     "href",
     "/corporate-event-video-production-orange-county",
   );
   // an on-page-anchor CTA: Concert Films (row 2) → View Selected Work → #selected-work
   await page.locator(".hm-svc-head").nth(2).click();
-  await expect(page.locator(".hm-svc-explore")).toContainText("View Selected Work");
-  await expect(page.locator(".hm-svc-explore")).toHaveAttribute("href", "#selected-work");
+  await expect(openExplore).toContainText("View Selected Work");
+  await expect(openExplore).toHaveAttribute("href", "#selected-work");
 
   // Galas (row 1) → its live vertical page
   await page.locator(".hm-svc-head").nth(1).click();
-  await expect(page.locator(".hm-svc-explore")).toContainText("Explore Gala Page");
-  await expect(page.locator(".hm-svc-explore")).toHaveAttribute("href", "/gala-fundraiser-video-production");
+  await expect(openExplore).toContainText("Explore Gala Page");
+  await expect(openExplore).toHaveAttribute("href", "/gala-fundraiser-video-production");
 });
 
 test("selected-work concourse initializes with seven posters and live plate", async ({ page }) => {

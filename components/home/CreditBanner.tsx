@@ -1,13 +1,15 @@
-/* eslint-disable @next/next/no-img-element -- small wordmark PNGs at
-   fixed heights; next/image adds nothing here */
-const LOGOS: Array<{ file: string; alt: string; h: number }> = [
-  { file: "livenation", alt: "Live Nation", h: 26 },
-  { file: "veeps", alt: "Veeps", h: 24 },
-  { file: "atlantic", alt: "Atlantic Records", h: 36 },
-  { file: "warner", alt: "Warner Music Group", h: 30 },
-  { file: "mddn", alt: "MDDN", h: 26 },
-  { file: "iheartradio", alt: "iHeartRadio", h: 30 },
-  { file: "blizzard", alt: "Blizzard Entertainment", h: 26 },
+import Image from "next/image";
+
+// intrinsic PNG dimensions (probed) — next/image needs both; CSS still
+// scales rendered height via --h
+const LOGOS: Array<{ file: string; alt: string; h: number; iw: number; ih: number }> = [
+  { file: "livenation", alt: "Live Nation logo", h: 26, iw: 266, ih: 60 },
+  { file: "veeps", alt: "Veeps logo", h: 24, iw: 239, ih: 52 },
+  { file: "atlantic", alt: "Atlantic Records logo", h: 36, iw: 68, ih: 68 },
+  { file: "warner", alt: "Warner Music Group logo", h: 30, iw: 152, ih: 60 },
+  { file: "mddn", alt: "MDDN logo", h: 26, iw: 133, ih: 64 },
+  { file: "iheartradio", alt: "iHeartRadio logo", h: 30, iw: 192, ih: 60 },
+  { file: "blizzard", alt: "Blizzard Entertainment logo", h: 26, iw: 112, ih: 52 },
 ];
 
 // Logo bar — LIVE-EVENT DISCIPLINE eyebrow + positioning caption (the
@@ -26,10 +28,12 @@ export default function CreditBanner() {
       </div>
       <div className="hm-credits-logos">
         {LOGOS.map((l) => (
-          <img
+          <Image
             key={l.file}
             src={`/home/logos/${l.file}.png`}
             alt={l.alt}
+            width={l.iw}
+            height={l.ih}
             className="hm-credit-logo"
             style={{ "--h": `${l.h}px` } as React.CSSProperties}
           />

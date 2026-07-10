@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+import { pageMetadata, ServiceJsonLd, footerNavPages } from "@/lib/seo";
 import "./gala-lp.css";
 import GfNav from "@/components/gf/GfNav";
 import GfMobileCta from "@/components/gf/GfMobileCta";
 import GfLockup from "@/components/gf/GfLockup";
 import GfAvailability from "@/components/gf/GfAvailability";
-
-/* eslint-disable @next/next/no-img-element -- small wordmark PNGs at
-   fixed heights; next/image adds nothing here */
 
 // Gala & Fundraiser Video Production — standalone vertical landing
 // page, ported from the Claude Design bundle export and structurally
@@ -15,38 +14,7 @@ import GfAvailability from "@/components/gf/GfAvailability";
 // responsive system. Linked from the homepage What-We-Do row
 // ("Explore Gala Page").
 
-const DESCRIPTION =
-  "Gala and fundraiser video production in Orange County & Southern California. Multicamera coverage, livestream support, program records, and donor-facing content for galas, benefit programs, honoree moments, and fundraising nights.";
-
-export const metadata: Metadata = {
-  title: "Gala & Fundraiser Video Production Orange County | Front Row Broadcast",
-  description: DESCRIPTION,
-  alternates: {
-    canonical: "https://www.frontrowoc.com/gala-fundraiser-video-production",
-  },
-  openGraph: {
-    title: "Gala & Fundraiser Video Production Orange County | Front Row Broadcast",
-    description: DESCRIPTION,
-    url: "https://www.frontrowoc.com/gala-fundraiser-video-production",
-    siteName: "Front Row Broadcast",
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: "/home/og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Front Row Broadcast — gala and fundraiser video production",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Gala & Fundraiser Video Production Orange County | Front Row Broadcast",
-    description: DESCRIPTION,
-    images: ["/home/og.jpg"],
-  },
-};
+export const metadata: Metadata = pageMetadata("gala");
 
 const PROGRAM_NIGHT = [
   "Room + remote audience",
@@ -56,14 +24,14 @@ const PROGRAM_NIGHT = [
   "Donor / sponsor deliverables",
 ];
 
-const LOGOS: Array<{ file: string; alt: string; max: number; h: number; maxM: number; hM: number }> = [
-  { file: "livenation", alt: "Live Nation", max: 148, h: 32, maxM: 136, hM: 28 },
-  { file: "veeps", alt: "Veeps", max: 132, h: 30, maxM: 122, hM: 27 },
-  { file: "atlantic", alt: "Atlantic Records", max: 44, h: 38, maxM: 40, hM: 34 },
-  { file: "warner", alt: "Warner Music Group", max: 112, h: 34, maxM: 102, hM: 31 },
-  { file: "mddn", alt: "MDDN", max: 76, h: 36, maxM: 68, hM: 32 },
-  { file: "iheartradio", alt: "iHeartRadio", max: 116, h: 34, maxM: 106, hM: 31 },
-  { file: "blizzard", alt: "Blizzard Entertainment", max: 86, h: 36, maxM: 78, hM: 32 },
+const LOGOS: Array<{ file: string; alt: string; max: number; h: number; maxM: number; hM: number; iw: number; ih: number }> = [
+  { file: "livenation", alt: "Live Nation logo", max: 148, h: 32, maxM: 136, hM: 28, iw: 266, ih: 60 },
+  { file: "veeps", alt: "Veeps logo", max: 132, h: 30, maxM: 122, hM: 27, iw: 239, ih: 52 },
+  { file: "atlantic", alt: "Atlantic Records logo", max: 44, h: 38, maxM: 40, hM: 34, iw: 68, ih: 68 },
+  { file: "warner", alt: "Warner Music Group logo", max: 112, h: 34, maxM: 102, hM: 31, iw: 152, ih: 60 },
+  { file: "mddn", alt: "MDDN logo", max: 76, h: 36, maxM: 68, hM: 32, iw: 133, ih: 64 },
+  { file: "iheartradio", alt: "iHeartRadio logo", max: 116, h: 34, maxM: 106, hM: 31, iw: 192, ih: 60 },
+  { file: "blizzard", alt: "Blizzard Entertainment logo", max: 86, h: 36, maxM: 78, hM: 32, iw: 112, ih: 52 },
 ];
 
 const USE_CASES = [
@@ -149,6 +117,7 @@ function Slate({ idx, name, sub }: { idx: string; name: string; sub: string }) {
 export default function GalaFundraiserPage() {
   return (
     <div className="gf">
+      <ServiceJsonLd page="gala" />
       <GfNav />
       <GfMobileCta />
 
@@ -219,7 +188,12 @@ export default function GalaFundraiserPage() {
                 } as React.CSSProperties
               }
             >
-              <img src={`/home/logos/${l.file}.png`} alt={l.alt} loading="lazy" decoding="async" />
+              <Image
+                src={`/home/logos/${l.file}.png`}
+                alt={l.alt}
+                width={l.iw}
+                height={l.ih}
+              />
             </span>
           ))}
         </div>
@@ -300,7 +274,12 @@ export default function GalaFundraiserPage() {
               </article>
             ))}
           </div>
-        </section>
+          <p className="gf-xlink">
+            Producing a corporate program instead?{" "}
+            <Link href="/corporate-event-video-production-orange-county">corporate event video production</Link>{" "}
+            <span aria-hidden="true">→</span>
+          </p>
+      </section>
 
         <section id="check-availability" className="gf-avail">
           <Slate idx="04" name="Check availability" sub="Dates, availability, and holds" />
@@ -368,6 +347,12 @@ export default function GalaFundraiserPage() {
           <Link href="/#selected-work">
             View selected work <span aria-hidden="true">→</span>
           </Link>
+          <span className="gf-fl-gap">Pages</span>
+          {footerNavPages().map((p) => (
+            <Link key={p.href} href={p.href}>
+              {p.label}
+            </Link>
+          ))}
         </nav>
       </footer>
     </div>

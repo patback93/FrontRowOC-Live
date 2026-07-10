@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Slate from "./Slate";
 import { PLAN_PHASES } from "./data";
 
@@ -24,6 +25,9 @@ export default function HomePlan() {
           </div>
         ))}
       </div>
+      <Link className="hm-plan-link" href="/corporate-event-video-production-orange-county">
+        See how the video plan works <span aria-hidden="true">→</span>
+      </Link>
     </section>
   );
 }

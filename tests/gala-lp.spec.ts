@@ -71,6 +71,11 @@ test("gala page renders all sections with resolving anchors", async ({ page }) =
   await expect(sw).toContainText("View selected work");
   // hero CTA still jumps to the availability form
   await expect(page.locator(".gf-cta-solid")).toHaveAttribute("href", "#check-availability");
+  // sibling cross-link with descriptive anchor text
+  await expect(page.locator(".gf-xlink a")).toHaveAttribute("href", "/corporate-event-video-production-orange-county");
+  await expect(page.locator(".gf-xlink a")).toContainText("corporate event video production");
+  // footer pages nav present
+  await expect(page.locator('.gf-footer-links a[href="/corporate-event-video-production-orange-county"]')).toHaveCount(1);
 
   // header logo actually lands on the homepage
   await page.locator('.gf-nav a[aria-label="Front Row Broadcast home"]').click();

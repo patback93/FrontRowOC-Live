@@ -303,8 +303,9 @@ body { margin: 0; padding: 0; background: #111013; }
 /* ---------------- 04 check availability ---------------- */
 .cp-avail { margin-top: clamp(48px,7vw,68px); padding: clamp(52px,7vw,68px) var(--padX) clamp(72px,10vw,110px); border-top: 1px solid var(--line); }
 .cp-av-title { margin-top: 34px; font-family: var(--f-display); font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: -0.015em; }
-.cp-av-1 { font-size: clamp(36px,4.6vw,68px); line-height: 1.0; }
+.cp-av-1 { display: block; font-size: clamp(36px,4.6vw,68px); line-height: 1.0; }
 .cp-av-2 {
+  display: block;
   font-size: clamp(52px,7.2vw,112px); line-height: 0.98; margin-top: 8px;
   margin-left: clamp(20px,4vw,90px); white-space: nowrap;
   -webkit-text-stroke: 2px var(--paper); color: transparent;
@@ -468,3 +469,12 @@ body { margin: 0; padding: 0; background: #111013; }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* sibling-vertical cross link (SEO/internal linking) */
+.cp-xlink {
+  margin-top: clamp(24px,3vw,32px); font-size: 14.5px; line-height: 1.6;
+  color: rgba(246,243,236,0.6);
+}
+.cp-xlink a { color: rgba(246,243,236,0.85); border-bottom: 1px solid rgba(217,58,43,0.72); padding-bottom: 2px; }
+.cp-xlink a:hover { color: var(--paper); }
+.cp-fl-gap { margin-top: 8px; }

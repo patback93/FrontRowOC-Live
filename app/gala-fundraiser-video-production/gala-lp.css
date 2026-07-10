@@ -486,3 +486,12 @@ body { margin: 0; padding: 0; background: #111013; }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* sibling-vertical cross link (SEO/internal linking) */
+.gf-xlink {
+  margin-top: clamp(24px,3vw,32px); font-size: 14.5px; line-height: 1.6;
+  color: rgba(246,243,236,0.6);
+}
+.gf-xlink a { color: rgba(246,243,236,0.85); border-bottom: 1px solid rgba(217,58,43,0.72); padding-bottom: 2px; }
+.gf-xlink a:hover { color: var(--paper); }
+.gf-fl-gap { margin-top: 8px; }
