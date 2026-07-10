@@ -176,6 +176,10 @@ export default function Projects() {
           e.clientY - r.top
         }px, rgba(246,243,236,0.10), rgba(246,243,236,0.035) 42%, rgba(246,243,236,0) 70%)`;
       }
+      // any pointer movement over the stage counts as engagement — hold
+      // the idle auto-drift so the wall never slides away mid-read (and
+      // the context-plate CTA stays put under the cursor)
+      s.last = performance.now();
       if (!s.drag) return;
       const dx = e.clientX - s.sx;
       let nx = s.x0 - dx;

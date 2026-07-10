@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     notes = field("notes").slice(0, 2000),
     company = field("company"),
     // which form sent it — allowlisted so the sheet/email can segment leads
-    page = field("page") === "corporate" ? "corporate" : "home";
+    page = ["corporate", "gala"].includes(field("page")) ? field("page") : "home";
 
   // Honeypot: a filled "company" means a bot — return 200, forward nothing.
   if (company) {

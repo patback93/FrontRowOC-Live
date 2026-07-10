@@ -123,12 +123,13 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
 
 ## Deployment notes (site-wide)
 
-- TODO(routes): `/corporate-event-video-production-orange-county` is LIVE
-  (ported from the Claude Design standalone export; linked from the What-We-Do
-  Corporate row). Still pending and 404 until built:
-  `/gala-fundraiser-video-production` (linked from the What-We-Do Gala row).
-- TODO(cal): both availability forms ("Grab 15 minutes" on / and on the
-  corporate page) hold `href="#"` until the Cal.com/Calendly link exists.
+- Vertical landing pages are LIVE (ported from the Claude Design standalone
+  exports; linked from the What-We-Do rows):
+  `/corporate-event-video-production-orange-county` and
+  `/gala-fundraiser-video-production`.
+- TODO(cal): all three availability forms ("Grab 15 minutes" on /, the
+  corporate page, and the gala page) hold `href="#"` until the Cal.com/
+  Calendly link exists.
 
 - TODO(deploy): Owner prefers **www**. All canonical/OG/JSON-LD URLs point at
   `https://www.frontrowoc.com` (app/layout.tsx metadataBase, app/page.tsx,

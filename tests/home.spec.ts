@@ -121,6 +121,11 @@ test("services accordion: five items, first open, ideal-for row, toggling works"
   await page.locator(".hm-svc-head").nth(2).click();
   await expect(page.locator(".hm-svc-explore")).toContainText("View Selected Work");
   await expect(page.locator(".hm-svc-explore")).toHaveAttribute("href", "#selected-work");
+
+  // Galas (row 1) → its live vertical page
+  await page.locator(".hm-svc-head").nth(1).click();
+  await expect(page.locator(".hm-svc-explore")).toContainText("Explore Gala Page");
+  await expect(page.locator(".hm-svc-explore")).toHaveAttribute("href", "/gala-fundraiser-video-production");
 });
 
 test("selected-work concourse initializes with seven posters and live plate", async ({ page }) => {
