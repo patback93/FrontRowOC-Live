@@ -69,6 +69,11 @@ test("corporate page renders all sections with resolving anchors", async ({ page
   await expect(sw).toContainText("View selected work");
   // hero CTA still jumps to the availability form
   await expect(page.locator(".cp-cta-solid")).toHaveAttribute("href", "#check-availability");
+  // header carries exactly one boxed conversion action → the form
+  await expect(page.locator(".cp-nav-links .cp-nav-cta")).toHaveAttribute("href", "#check-availability");
+  await expect(page.locator(".cp-nav-links .cp-nav-cta")).toContainText("Check Your Date");
+  // proof bar bridges to real work
+  await expect(page.locator(".cp-proof-link")).toHaveAttribute("href", "/#selected-work");
   // sibling cross-link with descriptive anchor text
   await expect(page.locator(".cp-xlink a")).toHaveAttribute("href", "/gala-fundraiser-video-production");
   await expect(page.locator(".cp-xlink a")).toContainText("gala and fundraiser video production");
@@ -84,6 +89,12 @@ test("corporate page renders all sections with resolving anchors", async ({ page
 test("availability form: validation blocks, happy path tags page corporate", async ({ page }) => {
   await page.goto(ROUTE);
   await page.locator("#check-availability").scrollIntoViewIfNeeded();
+  // only email + date are required; the rest is explicitly marked optional
+  await expect(page.locator(".cp-opt")).toHaveCount(3);
+  // escape hatch routes off-form (mailto until NEXT_PUBLIC_CAL_URL is set) — never a dead "#"
+  const grabHref = await page.locator(".cp-booking-line a").getAttribute("href");
+  expect(grabHref).not.toBe("#");
+  expect(grabHref).toBeTruthy();
   await page.locator(".cp-submit").click();
   await expect(page.locator(".cp-form-error")).toContainText("Email and event date are required.");
   expect(hits.length).toBe(0);

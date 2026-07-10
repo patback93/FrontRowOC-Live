@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 
+// calendar link (see page-level TALK_HREF note); email is the honest
+// interim path for "grab 15 minutes" until the calendar exists
+const CAL_URL = process.env.NEXT_PUBLIC_CAL_URL || "";
+const GRAB_HREF = CAL_URL || "mailto:hello@frontrowoc.com";
+
 // 04 Check availability — the corporate availability request. The
 // design export shipped this visual-only; here it POSTs to
 // /api/booking (page:"corporate") → the same Apps Script webhook as
@@ -114,7 +119,7 @@ export default function CorpAvailability() {
               />
             </div>
             <div className="cp-field">
-              <label htmlFor="cp-date">Event date *</label>
+              <label htmlFor="cp-date">Event Date *</label>
               <input
                 id="cp-date"
                 type="text"
@@ -127,7 +132,9 @@ export default function CorpAvailability() {
               />
             </div>
             <div className="cp-field">
-              <label htmlFor="cp-name">Name</label>
+              <label htmlFor="cp-name">
+                Name <span className="cp-opt">— Optional</span>
+              </label>
               <input
                 id="cp-name"
                 type="text"
@@ -138,7 +145,9 @@ export default function CorpAvailability() {
               />
             </div>
             <div className="cp-field">
-              <label htmlFor="cp-venue">Venue or City</label>
+              <label htmlFor="cp-venue">
+                Venue or City <span className="cp-opt">— Optional</span>
+              </label>
               <input
                 id="cp-venue"
                 type="text"
@@ -149,7 +158,9 @@ export default function CorpAvailability() {
             </div>
           </div>
           <div className="cp-field cp-notes">
-            <label htmlFor="cp-notes">Tell us about the event</label>
+            <label htmlFor="cp-notes">
+              Tell Us About the Event <span className="cp-opt">— Optional</span>
+            </label>
             <textarea
               id="cp-notes"
               rows={5}
@@ -177,8 +188,13 @@ export default function CorpAvailability() {
             </button>
             <div className="cp-booking-line">
               Prefer to talk it through?{" "}
-              {/* TODO(cal): swap "#" for the real Cal.com/Calendly booking link */}
-              <a href="#">Grab 15 minutes.</a>
+              {/* routes to the calendar once NEXT_PUBLIC_CAL_URL is set */}
+              <a href={GRAB_HREF}>
+                Grab 15 minutes with the production lead <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div className="cp-form-note">
+              You&rsquo;ll talk directly with the production lead before anything is quoted.
             </div>
           </div>
           {error && (

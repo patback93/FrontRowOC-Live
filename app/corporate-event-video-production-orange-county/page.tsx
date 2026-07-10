@@ -14,6 +14,12 @@ import CorpAvailability from "@/components/corp/CorpAvailability";
 
 export const metadata: Metadata = pageMetadata("corporate");
 
+// Talk-path CTAs (hero ghost, mid-strip, "Grab 15 minutes") route to the
+// calendar once NEXT_PUBLIC_CAL_URL is set on Vercel; until then they fall
+// back so nothing dead-ends (form for the strip/ghost, email for Grab-15).
+const CAL_URL = process.env.NEXT_PUBLIC_CAL_URL || "";
+const TALK_HREF = CAL_URL || "#check-availability";
+
 const INTAKE = [
   "Event date",
   "Venue / city",
@@ -149,7 +155,7 @@ export default function CorporatePage() {
               <a href="#check-availability" className="cp-cta-solid">
                 Check Your Date
               </a>
-              <a href="#check-availability" className="cp-cta-ghost">
+              <a href={TALK_HREF} className="cp-cta-ghost">
                 Talk Through the Video Plan
               </a>
             </div>
@@ -189,8 +195,12 @@ export default function CorporatePage() {
         <div className="cp-proof-intro">
           <div className="cp-proof-kicker">Live-event discipline</div>
           <div className="cp-proof-line">
-            Built from live environments where the video department cannot miss.
+            Built from live environments where timing, signal flow, crew communication, and
+            delivery have to work the first time.
           </div>
+          <Link className="cp-proof-link" href="/#selected-work">
+            View selected work <span aria-hidden="true">→</span>
+          </Link>
         </div>
         <div className="cp-proof-logos" aria-label="Relevant live-event client and platform logos">
           {LOGOS.map((l) => (
@@ -275,7 +285,7 @@ export default function CorporatePage() {
                 plan makes sense.
               </p>
             </div>
-            <a href="#check-availability" className="cp-strip-cta">
+            <a href={TALK_HREF} className="cp-strip-cta">
               Talk Through the Video Plan
             </a>
           </div>

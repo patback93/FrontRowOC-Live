@@ -44,6 +44,9 @@ export default function CorpNav() {
                 {l.label}
               </a>
             ))}
+            <a href="#check-availability" className="cp-nav-cta">
+              Check Your Date
+            </a>
           </div>
           <button
             type="button"

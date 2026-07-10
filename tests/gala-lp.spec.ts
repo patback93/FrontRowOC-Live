@@ -56,7 +56,7 @@ test("gala page renders all sections with resolving anchors", async ({ page }) =
   expect(solidColor).toBe("rgb(17, 16, 19)");
   // every in-page anchor points at an existing id
   const anchors = await page
-    .locator('.cp a[href^="#"]:not([href="#"])')
+    .locator('.gf a[href^="#"]:not([href="#"])')
     .evaluateAll((els) => els.map((a) => a.getAttribute("href")));
   for (const a of new Set(anchors)) {
     await expect(page.locator(a!)).toHaveCount(1);
@@ -71,6 +71,11 @@ test("gala page renders all sections with resolving anchors", async ({ page }) =
   await expect(sw).toContainText("View selected work");
   // hero CTA still jumps to the availability form
   await expect(page.locator(".gf-cta-solid")).toHaveAttribute("href", "#check-availability");
+  // header carries exactly one boxed conversion action → the form
+  await expect(page.locator(".gf-nav-links .gf-nav-cta")).toHaveAttribute("href", "#check-availability");
+  await expect(page.locator(".gf-nav-links .gf-nav-cta")).toContainText("Check Your Date");
+  // proof bar bridges to real work
+  await expect(page.locator(".gf-proof-link")).toHaveAttribute("href", "/#selected-work");
   // sibling cross-link with descriptive anchor text
   await expect(page.locator(".gf-xlink a")).toHaveAttribute("href", "/corporate-event-video-production-orange-county");
   await expect(page.locator(".gf-xlink a")).toContainText("corporate event video production");
@@ -86,6 +91,12 @@ test("gala page renders all sections with resolving anchors", async ({ page }) =
 test("availability form: validation blocks, happy path tags page gala", async ({ page }) => {
   await page.goto(ROUTE);
   await page.locator("#check-availability").scrollIntoViewIfNeeded();
+  // only email + date are required; the rest is explicitly marked optional
+  await expect(page.locator(".gf-opt")).toHaveCount(3);
+  // escape hatch routes off-form (mailto until NEXT_PUBLIC_CAL_URL is set) — never a dead "#"
+  const grabHref = await page.locator(".gf-booking-line a").getAttribute("href");
+  expect(grabHref).not.toBe("#");
+  expect(grabHref).toBeTruthy();
   await page.locator(".gf-submit").click();
   await expect(page.locator(".gf-form-error")).toContainText("Email and event date are required.");
   expect(hits.length).toBe(0);

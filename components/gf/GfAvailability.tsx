@@ -157,7 +157,7 @@ export default function GfAvailability() {
               />
             </div>
           </div>
-          <div className="gf-field cp-notes">
+          <div className="gf-field gf-notes">
             <label htmlFor="gf-notes">
               Tell Us About the Event <span className="gf-opt">— Optional</span>
             </label>
