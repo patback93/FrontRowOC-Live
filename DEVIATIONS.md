@@ -123,6 +123,12 @@ Form suite: 4/4 green. Everything below is a conscious, documented delta.
 
 ## Deployment notes (site-wide)
 
+- Google Analytics 4 (`G-2ZRFVPD2SC`, gtag.js) loads site-wide from the root
+  layout via components/GoogleAnalytics.tsx — rendered only when
+  `process.env.VERCEL` is set (same gate and rationale as `<Analytics />`,
+  see §10), so local prod runs and the Playwright suite never touch
+  googletagmanager.com.
+
 - Vertical landing pages are LIVE (ported from the Claude Design standalone
   exports; linked from the What-We-Do rows):
   `/corporate-event-video-production-orange-county` and
